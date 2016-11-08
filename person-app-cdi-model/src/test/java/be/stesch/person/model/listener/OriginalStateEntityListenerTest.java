@@ -13,6 +13,7 @@ import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -32,6 +33,8 @@ public class OriginalStateEntityListenerTest {
 
     @Mock
     private Event<Notification> notificationEvent;
+    @Mock
+    private BeanManager beanManager;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,6 +49,7 @@ public class OriginalStateEntityListenerTest {
     public void testPersonOriginalMaritalStatus() throws Exception {
         Person person = entityManager.find(Person.class, 1L);
         person.setNotificationEvent(notificationEvent);
+        person.setBeanManager(beanManager);
 
         assertEquals(SINGLE, person.getMaritalStatus());
         assertEquals(SINGLE, person.getOriginalMaritalStatus());

@@ -10,12 +10,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.mockito.Matchers.isA;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +29,8 @@ public class PersonAppServletTest {
 
     @Mock
     private Event<Notification> notificationEvent;
+    @Mock
+    private BeanManager beanManager;
     @Mock
     private PersonService personService;
     @Mock
@@ -44,6 +47,7 @@ public class PersonAppServletTest {
     public void testDoGet() throws Exception {
         Person person = new Person("Test", "Person", SINGLE);
         person.setNotificationEvent(notificationEvent);
+        person.setBeanManager(beanManager);
 
         when(httpServletResponse.getWriter()).thenReturn(printWriter);
         when(personService.findPerson(person.getId())).thenReturn(person);

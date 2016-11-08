@@ -136,4 +136,9 @@ public class Person implements Auditable, Serializable {
     public void setNotificationEvent(Event<Notification> notificationEvent) {
         this.notificationEvent = notificationEvent;
     }
+
+    @VisibleForTesting
+    public void setBeanManager(BeanManager beanManager) {
+        this.beanManager = beanManager;
+    }
 }

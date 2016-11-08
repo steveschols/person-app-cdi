@@ -12,6 +12,7 @@ import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.spi.BeanManager;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -34,6 +35,8 @@ public class PersonDaoBeanTest {
 
     @Mock
     private Event<Notification> notificationEvent;
+    @Mock
+    private BeanManager beanManager;
 
     private PersonDao personDao = new PersonDaoBean();
 
@@ -56,6 +59,7 @@ public class PersonDaoBeanTest {
     public void testUpdatePerson() {
         Person person = personDao.find(1L);
         person.setNotificationEvent(notificationEvent);
+        person.setBeanManager(beanManager);
 
         LocalDateTime expectedCreationDate = LocalDateTime.of(2015, 8, 27, 0, 0);
         LocalDateTime actualCreationDate = LocalDateTime.ofInstant(person.getCreationDate().toInstant(),

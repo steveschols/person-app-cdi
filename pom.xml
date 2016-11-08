@@ -6,15 +6,16 @@
     <artifactId>person-app-cdi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>person-app-cdi-common</module>
         <module>person-app-cdi-model</module>
         <module>person-app-cdi-dao-api</module>
         <module>person-app-cdi-dao-impl</module>
         <module>person-app-cdi-persistence</module>
         <module>person-app-cdi-service-api</module>
         <module>person-app-cdi-service-impl</module>
-        <module>person-app-cdi-common</module>
         <module>person-app-cdi-test</module>
         <module>person-app-cdi-web</module>
+        <module>person-app-cdi-ear</module>
     </modules>
     <packaging>pom</packaging>
 

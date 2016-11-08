@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.spi.BeanManager;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
@@ -23,6 +24,8 @@ public class PersonTest {
 
     @Mock
     private Event<Notification> notificationEvent;
+    @Mock
+    private BeanManager beanManager;
 
     @Test
     public void testSetMaritalStatusWithChangeNotifiesObserver() {
@@ -30,9 +33,11 @@ public class PersonTest {
         // Set by EntityListener
         person.setOriginalMaritalStatus(SINGLE);
         person.setNotificationEvent(notificationEvent);
+        person.setBeanManager(beanManager);
         person.setMaritalStatus(MARRIED);
         //verify(observer).notifyObserver(person);
-        verify(notificationEvent).fire(isA(Notification.class));
+//        verify(notificationEvent).fire(isA(Notification.class));
+        verify(beanManager).fireEvent(isA(Notification.class));
     }
 
     @Test
