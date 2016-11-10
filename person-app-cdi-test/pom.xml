@@ -16,6 +16,15 @@
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
