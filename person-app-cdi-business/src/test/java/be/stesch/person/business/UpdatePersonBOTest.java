@@ -13,7 +13,7 @@ import javax.enterprise.event.Event;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static java.lang.Long.valueOf;
+import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.isA;
@@ -35,21 +35,22 @@ public class UpdatePersonBOTest {
 
     @Test
     public void testUpdatePersonUnmodifiedMaritalStatus() throws Exception {
-        String id = "1";
-        Person person = new Person("Test", "Person", SINGLE);
+        Long personId = 1L;
+        Person person = new Person(personId, "Test", "Person", SINGLE);
         person.setOriginalMaritalStatus(SINGLE);
 
-        when(personService.findPerson(valueOf(id))).thenReturn(person);
+        when(personService.findPerson(personId)).thenReturn(person);
         when(personService.updatePerson(person)).thenReturn(person);
 
-        updatePersonBO.setId(id);
-        updatePersonBO.setPerson(new Person("John", "Doe", SINGLE));
+        updatePersonBO.setId(valueOf(personId));
+        updatePersonBO.setPerson(new Person(personId, "John", "Doe", SINGLE));
         Person updatedPerson = updatePersonBO.execute();
 
-        verify(personService).findPerson(valueOf(id));
+        verify(personService).findPerson(personId);
         verify(personService).updatePerson(person);
         verify(notificationEvent, never()).fire(isA(MaritalStatusChangeEvent.class));
 
+        assertThat(updatedPerson.getId(), is(personId));
         assertThat(updatedPerson.getFirstName(), is("John"));
         assertThat(updatedPerson.getLastName(), is("Doe"));
         assertThat(updatedPerson.getMaritalStatus(), is(SINGLE));
@@ -57,21 +58,22 @@ public class UpdatePersonBOTest {
 
     @Test
     public void testUpdatePersonModifiedMaritalStatus() throws Exception {
-        String id = "1";
-        Person person = new Person("Test", "Person", SINGLE);
+        Long personId = 1L;
+        Person person = new Person(personId, "Test", "Person", SINGLE);
         person.setOriginalMaritalStatus(SINGLE);
 
-        when(personService.findPerson(valueOf(id))).thenReturn(person);
+        when(personService.findPerson(personId)).thenReturn(person);
         when(personService.updatePerson(person)).thenReturn(person);
 
-        updatePersonBO.setId(id);
-        updatePersonBO.setPerson(new Person("John", "Doe", MARRIED));
+        updatePersonBO.setId(valueOf(personId));
+        updatePersonBO.setPerson(new Person(personId, "John", "Doe", MARRIED));
         Person updatedPerson = updatePersonBO.execute();
 
-        verify(personService).findPerson(valueOf(id));
+        verify(personService).findPerson(personId);
         verify(personService).updatePerson(person);
         verify(notificationEvent).fire(isA(MaritalStatusChangeEvent.class));
 
+        assertThat(updatedPerson.getId(), is(personId));
         assertThat(updatedPerson.getFirstName(), is("John"));
         assertThat(updatedPerson.getLastName(), is("Doe"));
         assertThat(updatedPerson.getMaritalStatus(), is(MARRIED));

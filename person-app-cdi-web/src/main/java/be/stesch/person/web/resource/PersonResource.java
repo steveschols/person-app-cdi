@@ -2,25 +2,31 @@ package be.stesch.person.web.resource;
 
 import be.stesch.person.business.CreatePersonBO;
 import be.stesch.person.business.GetPersonBO;
+import be.stesch.person.business.UpdatePersonBO;
 import be.stesch.person.model.Person;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import static be.stesch.person.common.URIFactory.*;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 
 /**
  * Created by Steve Schols on 11/9/2016.
  */
-@Path("person-services/persons")
+@Path(PERSON_SERVICES_PATH)
+@RequestScoped
 public class PersonResource {
 
     @Inject
     private CreatePersonBO createPersonBO;
+    @Inject
+    private UpdatePersonBO updatePersonBO;
     @Inject
     private GetPersonBO getPersonBO;
 
@@ -28,18 +34,36 @@ public class PersonResource {
     @Consumes({APPLICATION_JSON, APPLICATION_XML})
     public Response createPerson(Person person) {
         createPersonBO.setPerson(person);
-        createPersonBO.execute();
+        Person createdPerson = createPersonBO.execute();
 
-        return status(CREATED).build();
+        return status(CREATED)
+                .contentLocation(createdPerson.getUri())
+                .build();
+    }
+
+    @PUT
+    @Path(PERSON_ID_PATH)
+    @Consumes({APPLICATION_JSON, APPLICATION_XML})
+    public Response updatePerson(@PathParam(PERSON_ID_PATH_PARAM) String personId, Person person) {
+        updatePersonBO.setId(personId);
+        updatePersonBO.setPerson(person);
+        Person updatedPerson = updatePersonBO.execute();
+
+        return status(NO_CONTENT)
+                .contentLocation(updatedPerson.getUri())
+                .build();
     }
 
     @GET
-    @Path("{personId}")
+    @Path(PERSON_ID_PATH)
     @Produces({APPLICATION_JSON, APPLICATION_XML})
-    public Person getPerson(@PathParam("personId") String personId) {
+    public Response getPerson(@PathParam(PERSON_ID_PATH_PARAM) String personId) {
         getPersonBO.setId(personId);
+        Person person = getPersonBO.execute();
 
-        return getPersonBO.execute();
+        return status(OK)
+                .entity(person)
+                .build();
     }
 
 }

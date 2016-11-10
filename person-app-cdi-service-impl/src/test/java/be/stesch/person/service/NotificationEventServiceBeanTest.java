@@ -15,7 +15,7 @@ public class NotificationEventServiceBeanTest {
 
     @Test
     public void testPublishNotification() throws Exception {
-        Person person = new Person("John", "Doe", MARRIED);
+        Person person = new Person(1L, "John", "Doe", MARRIED);
         MaritalStatusChangeEvent maritalStatusChangeEvent = new MaritalStatusChangeEvent(person);
 
         new EventServiceBean().publishMaritalStatusChangeEvent(maritalStatusChangeEvent);

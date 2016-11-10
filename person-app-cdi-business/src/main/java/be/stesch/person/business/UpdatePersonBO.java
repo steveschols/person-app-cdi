@@ -7,6 +7,7 @@ import be.stesch.person.service.PersonService;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import static java.lang.Long.valueOf;
 
@@ -25,6 +26,7 @@ public class UpdatePersonBO implements BusinessObject<Person> {
     private Person person;
 
     @Override
+    @Transactional
     public Person onExecute() throws Exception {
         Person personToUpdate = personService.findPerson(valueOf(id));
         personToUpdate.setFirstName(person.getFirstName());

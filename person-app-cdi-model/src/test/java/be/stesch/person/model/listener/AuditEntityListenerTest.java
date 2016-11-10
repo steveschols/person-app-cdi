@@ -31,7 +31,7 @@ public class AuditEntityListenerTest {
 
     @Test
     public void testSetAuditDataOnPersist() throws Exception {
-        Person person = new Person("Test", "Person", SINGLE);
+        Person person = new Person(null, "Test", "Person", SINGLE);
 
         entityManager.persist(person);
 

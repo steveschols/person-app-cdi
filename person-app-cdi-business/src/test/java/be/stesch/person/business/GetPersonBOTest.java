@@ -9,9 +9,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
-import static java.lang.Long.valueOf;
+import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,16 +30,19 @@ public class GetPersonBOTest {
 
     @Test
     public void testGetPerson() throws Exception {
-        String id = "1";
-        Person person = new Person("John", "Doe", MARRIED);
+        Long personId = 1L;
+        Person person = new Person(personId, "John", "Doe", MARRIED);
 
-        when(personService.findPerson(valueOf(id))).thenReturn(person);
+        when(personService.findPerson(personId)).thenReturn(person);
 
-        getPersonBO.setId(id);
+        getPersonBO.setId(valueOf(personId));
         Person foundPerson = getPersonBO.execute();
 
-        verify(personService).findPerson(valueOf(id));
+        verify(personService).findPerson(personId);
 
-        assertThat(foundPerson, is(person));
+        assertThat(foundPerson.getId(), is(personId));
+        assertThat(foundPerson.getFirstName(), is("John"));
+        assertThat(foundPerson.getLastName(), is("Doe"));
+        assertThat(foundPerson.getMaritalStatus(), is(MARRIED));
     }
 }

@@ -2,14 +2,17 @@ package be.stesch.person.model;
 
 import be.stesch.person.model.listener.AuditEntityListener;
 import be.stesch.person.model.listener.OriginalStateEntityListener;
+import com.google.common.annotations.VisibleForTesting;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Date;
 
+import static be.stesch.person.common.URIFactory.getPersonUri;
 import static javax.persistence.EnumType.STRING;
 
 /**
@@ -19,7 +22,7 @@ import static javax.persistence.EnumType.STRING;
 @Entity
 @EntityListeners({AuditEntityListener.class, OriginalStateEntityListener.class})
 @XmlRootElement
-public class Person implements Auditable, Serializable {
+public class Person implements Auditable, UriGenerating, Serializable {
 
     @Id
     @GeneratedValue
@@ -45,7 +48,9 @@ public class Person implements Auditable, Serializable {
     public Person() {
     }
 
-    public Person(String firstName, String lastName, MaritalStatus maritalStatus) {
+    @VisibleForTesting
+    public Person(Long id, String firstName, String lastName, MaritalStatus maritalStatus) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.maritalStatus = maritalStatus;
@@ -108,6 +113,12 @@ public class Person implements Auditable, Serializable {
 
     public void setOriginalMaritalStatus(MaritalStatus originalMaritalStatus) {
         this.originalMaritalStatus = originalMaritalStatus;
+    }
+
+    @Override
+    @JsonIgnore
+    public URI getUri() {
+        return getPersonUri(id);
     }
 
 }

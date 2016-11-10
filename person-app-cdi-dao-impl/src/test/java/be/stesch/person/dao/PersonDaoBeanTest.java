@@ -50,7 +50,7 @@ public class PersonDaoBeanTest {
 
     @Test
     public void testPersistPerson() throws Exception {
-        Person person = new Person("Test", "Person", SINGLE);
+        Person person = new Person(null, "Test", "Person", SINGLE);
 
         personDao.persist(person);
 
@@ -60,10 +60,12 @@ public class PersonDaoBeanTest {
     @Test
     @DataSet("datasets/PersonDataSet.xml")
     public void testUpdatePerson() {
-        Person person = personDao.find(1L);
+        Long personId = 1L;
+        Person person = personDao.find(personId);
 
         LocalDateTime expectedCreationDate = of(2015, 8, 27, 0, 0);
         LocalDateTime actualCreationDate = ofInstant(person.getCreationDate().toInstant(), systemDefault());
+        assertThat(person.getId(), is(personId));
         assertThat(person.getFirstName(), is("Test"));
         assertThat(person.getLastName(), is("Person"));
         assertThat(person.getMaritalStatus(), is(SINGLE));
@@ -75,6 +77,7 @@ public class PersonDaoBeanTest {
 
         person = personDao.merge(person);
 
+        assertThat(person.getId(), is(personId));
         assertThat(person.getFirstName(), is("John"));
         assertThat(person.getLastName(), is("Doe"));
         assertThat(person.getMaritalStatus(), is(MARRIED));
