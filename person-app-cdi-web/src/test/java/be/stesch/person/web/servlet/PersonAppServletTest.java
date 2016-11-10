@@ -1,6 +1,8 @@
 package be.stesch.person.web.servlet;
 
-import be.stesch.person.common.Notification;
+import be.stesch.person.business.CreatePersonBO;
+import be.stesch.person.business.UpdatePersonBO;
+import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import be.stesch.person.model.Person;
 import be.stesch.person.service.PersonService;
 import org.junit.Test;
@@ -16,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,11 +29,15 @@ import static org.mockito.Mockito.when;
 public class PersonAppServletTest {
 
     @Mock
-    private Event<Notification> notificationEvent;
+    private Event<MaritalStatusChangeEvent> notificationEvent;
     @Mock
     private BeanManager beanManager;
     @Mock
     private PersonService personService;
+    @Mock
+    private CreatePersonBO createPersonBO;
+    @Mock
+    private UpdatePersonBO updatePersonBO;
     @Mock
     private HttpServletRequest httpServletRequest;
     @Mock
@@ -46,16 +51,15 @@ public class PersonAppServletTest {
     @Test
     public void testDoGet() throws Exception {
         Person person = new Person("Test", "Person", SINGLE);
-        person.setNotificationEvent(notificationEvent);
-        person.setBeanManager(beanManager);
 
         when(httpServletResponse.getWriter()).thenReturn(printWriter);
-        when(personService.findPerson(person.getId())).thenReturn(person);
+        when(createPersonBO.execute()).thenReturn(person);
+        when(updatePersonBO.execute()).thenReturn(person);
 
         personAppServlet.doGet(httpServletRequest, httpServletResponse);
 
-        verify(personService).createPerson(isA(Person.class));
-        verify(personService).updatePerson(isA(Person.class));
+        verify(createPersonBO).execute();
+        verify(updatePersonBO).execute();
         verify(httpServletResponse).getWriter();
     }
 

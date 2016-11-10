@@ -1,26 +1,21 @@
 package be.stesch.person.model.listener;
 
 import be.stesch.person.model.Person;
-import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.unitils.UnitilsJUnit4TestClassRunner;
-import org.unitils.database.DatabaseUnitils;
 import org.unitils.database.annotations.Transactional;
-import org.unitils.database.util.TransactionMode;
 import org.unitils.dbunit.annotation.DataSet;
-import org.unitils.orm.hibernate.annotation.HibernateSessionFactory;
-import org.unitils.orm.jpa.JpaUnitils;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.junit.Assert.assertNotNull;
-import static org.unitils.database.util.TransactionMode.COMMIT;
-import static org.unitils.database.util.TransactionMode.DISABLED;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 import static org.unitils.database.util.TransactionMode.ROLLBACK;
+import static org.unitils.orm.jpa.JpaUnitils.flushDatabaseUpdates;
 
 /**
  * @author Steve Schols
@@ -40,7 +35,7 @@ public class AuditEntityListenerTest {
 
         entityManager.persist(person);
 
-        assertNotNull(person.getCreationDate());
+        assertThat(person.getCreationDate(), is(not(nullValue())));
     }
 
     @Test
@@ -59,9 +54,9 @@ public class AuditEntityListenerTest {
         // The PreUpdate and PostUpdate callbacks occur before and after the database update operations to
         // entity data respectively. These database operations may occur at the time the entity state is updated or
         // they may occur at the time state is flushed to the database (which may be at the end of the transaction).
-        JpaUnitils.flushDatabaseUpdates();
+        flushDatabaseUpdates();
 
-        assertNotNull(person.getLastUpdateDate());
+        assertThat(person.getLastUpdateDate(), is(not(nullValue())));
     }
 
 }

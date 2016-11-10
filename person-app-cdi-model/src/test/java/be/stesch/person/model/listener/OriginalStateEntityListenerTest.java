@@ -1,7 +1,7 @@
 package be.stesch.person.model.listener;
 
-import be.stesch.person.common.Notification;
 import be.stesch.person.model.Person;
+import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,8 @@ import javax.persistence.PersistenceContext;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.unitils.database.util.TransactionMode.ROLLBACK;
 
 /**
@@ -32,7 +33,7 @@ import static org.unitils.database.util.TransactionMode.ROLLBACK;
 public class OriginalStateEntityListenerTest {
 
     @Mock
-    private Event<Notification> notificationEvent;
+    private Event<MaritalStatusChangeEvent> notificationEvent;
     @Mock
     private BeanManager beanManager;
 
@@ -48,15 +49,14 @@ public class OriginalStateEntityListenerTest {
     @DataSet("/datasets/PersonDataSet.xml")
     public void testPersonOriginalMaritalStatus() throws Exception {
         Person person = entityManager.find(Person.class, 1L);
-        person.setNotificationEvent(notificationEvent);
-        person.setBeanManager(beanManager);
 
-        assertEquals(SINGLE, person.getMaritalStatus());
-        assertEquals(SINGLE, person.getOriginalMaritalStatus());
+        assertThat(person.getMaritalStatus(), is(SINGLE));
+        assertThat(person.getOriginalMaritalStatus(), is(SINGLE));
 
         person.setMaritalStatus(MARRIED);
-        assertEquals(MARRIED, person.getMaritalStatus());
-        assertEquals(SINGLE, person.getOriginalMaritalStatus());
+
+        assertThat(person.getMaritalStatus(), is(MARRIED));
+        assertThat(person.getOriginalMaritalStatus(), is(SINGLE));
     }
 
 }

@@ -1,7 +1,7 @@
 package be.stesch.person.dao;
 
-import be.stesch.person.common.Notification;
 import be.stesch.person.model.Person;
+import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +14,14 @@ import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.BeanManager;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static java.time.LocalDateTime.of;
+import static java.time.LocalDateTime.ofInstant;
+import static java.time.ZoneId.systemDefault;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.unitils.database.util.TransactionMode.ROLLBACK;
 import static org.unitils.orm.jpa.JpaUnitils.injectEntityManagerInto;
@@ -34,7 +36,7 @@ import static org.unitils.orm.jpa.JpaUnitils.injectEntityManagerInto;
 public class PersonDaoBeanTest {
 
     @Mock
-    private Event<Notification> notificationEvent;
+    private Event<MaritalStatusChangeEvent> notificationEvent;
     @Mock
     private BeanManager beanManager;
 
@@ -49,35 +51,34 @@ public class PersonDaoBeanTest {
     @Test
     public void testPersistPerson() throws Exception {
         Person person = new Person("Test", "Person", SINGLE);
+
         personDao.persist(person);
 
-        assertNotNull(person.getId());
+        assertThat(person.getId(), is(not(nullValue())));
     }
 
     @Test
     @DataSet("datasets/PersonDataSet.xml")
     public void testUpdatePerson() {
         Person person = personDao.find(1L);
-        person.setNotificationEvent(notificationEvent);
-        person.setBeanManager(beanManager);
 
-        LocalDateTime expectedCreationDate = LocalDateTime.of(2015, 8, 27, 0, 0);
-        LocalDateTime actualCreationDate = LocalDateTime.ofInstant(person.getCreationDate().toInstant(),
-                ZoneId.systemDefault());
-        assertEquals("Test", person.getFirstName());
-        assertEquals("Person", person.getLastName());
-        assertEquals(SINGLE, person.getMaritalStatus());
-        assertEquals(expectedCreationDate, actualCreationDate);
+        LocalDateTime expectedCreationDate = of(2015, 8, 27, 0, 0);
+        LocalDateTime actualCreationDate = ofInstant(person.getCreationDate().toInstant(), systemDefault());
+        assertThat(person.getFirstName(), is("Test"));
+        assertThat(person.getLastName(), is("Person"));
+        assertThat(person.getMaritalStatus(), is(SINGLE));
+        assertThat(actualCreationDate, is(expectedCreationDate));
 
         person.setFirstName("John");
         person.setLastName("Doe");
         person.setMaritalStatus(MARRIED);
+
         person = personDao.merge(person);
 
-        assertEquals("John", person.getFirstName());
-        assertEquals("Doe", person.getLastName());
-        assertEquals(MARRIED, person.getMaritalStatus());
-        assertEquals(expectedCreationDate, actualCreationDate);
+        assertThat(person.getFirstName(), is("John"));
+        assertThat(person.getLastName(), is("Doe"));
+        assertThat(person.getMaritalStatus(), is(MARRIED));
+        assertThat(actualCreationDate, is(expectedCreationDate));
     }
 
 }

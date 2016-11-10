@@ -16,6 +16,7 @@
         <module>person-app-cdi-test</module>
         <module>person-app-cdi-web</module>
         <module>person-app-cdi-ear</module>
+        <module>person-app-cdi-business</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -90,6 +91,11 @@
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
+                <artifactId>person-app-cdi-business</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-web</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <scope>runtime</scope>
@@ -100,6 +106,25 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>7.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs</artifactId>
+                <version>3.0.19.Final</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxb-provider</artifactId>
+                <version>3.0.19.Final</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson-provider</artifactId>
+                <version>3.0.19.Final</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -167,6 +192,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>

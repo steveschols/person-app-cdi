@@ -1,7 +1,8 @@
-package be.stesch.person.service;
+package be.stesch.person.service.impl;
 
 import be.stesch.person.dao.PersonDao;
 import be.stesch.person.model.Person;
+import be.stesch.person.service.PersonService;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;

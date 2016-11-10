@@ -1,9 +1,9 @@
 package be.stesch.person.web.servlet;
 
+import be.stesch.person.business.CreatePersonBO;
+import be.stesch.person.business.UpdatePersonBO;
 import be.stesch.person.model.Person;
-import be.stesch.person.service.PersonService;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -15,28 +15,29 @@ import java.io.IOException;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static java.lang.String.valueOf;
 
 /**
  * @author Steve Schols
  * @since 3/09/2015
  */
-@WebServlet("PersonApp")
+@WebServlet("person-app/PersonApp")
 @RequestScoped
 public class PersonAppServlet extends HttpServlet {
 
     @Inject
-    private PersonService personService;
+    private CreatePersonBO createPersonBO;
+    @Inject
+    private UpdatePersonBO updatePersonBO;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Person person = new Person("Test", "Person", SINGLE);
-        personService.createPerson(person);
+        createPersonBO.setPerson(new Person("Test", "Person", SINGLE));
+        Person person = createPersonBO.execute();
 
-        Person personToUpdate = personService.findPerson(person.getId());
-        personToUpdate.setFirstName("John");
-        personToUpdate.setLastName("Doe");
-        personToUpdate.setMaritalStatus(MARRIED);
-        personService.updatePerson(personToUpdate);
+        updatePersonBO.setId(valueOf(person.getId()));
+        updatePersonBO.setPerson(new Person("John", "Doe", MARRIED));
+        updatePersonBO.execute();
 
         resp.getWriter().print("Check the logs for the marital status change notification!");
     }

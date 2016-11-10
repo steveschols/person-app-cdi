@@ -1,20 +1,15 @@
 package be.stesch.person.model;
 
-import be.stesch.person.common.Notification;
 import be.stesch.person.model.listener.AuditEntityListener;
 import be.stesch.person.model.listener.OriginalStateEntityListener;
-import com.google.common.annotations.VisibleForTesting;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
-import static java.lang.String.format;
 import static javax.persistence.EnumType.STRING;
 
 /**
@@ -23,10 +18,8 @@ import static javax.persistence.EnumType.STRING;
  */
 @Entity
 @EntityListeners({AuditEntityListener.class, OriginalStateEntityListener.class})
-@Dependent
+@XmlRootElement
 public class Person implements Auditable, Serializable {
-
-    private static final String NOTIFICATION_STRING = "Person ID %s, %s %s changed marital status from %s to %s";
 
     @Id
     @GeneratedValue
@@ -49,12 +42,6 @@ public class Person implements Auditable, Serializable {
     @Transient
     private MaritalStatus originalMaritalStatus;
 
-    @Transient
-    @Inject
-    private Event<Notification> notificationEvent;
-    @Transient
-    private BeanManager beanManager;
-
     public Person() {
     }
 
@@ -64,10 +51,12 @@ public class Person implements Auditable, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
+    @JsonIgnore
     public Long getId() {
         return id;
     }
 
+    @XmlElement
     public String getFirstName() {
         return firstName;
     }
@@ -76,6 +65,7 @@ public class Person implements Auditable, Serializable {
         this.firstName = firstName;
     }
 
+    @XmlElement
     public String getLastName() {
         return lastName;
     }
@@ -84,23 +74,16 @@ public class Person implements Auditable, Serializable {
         this.lastName = lastName;
     }
 
+    @XmlElement
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
 
     public void setMaritalStatus(MaritalStatus maritalStatus) {
         this.maritalStatus = maritalStatus;
-
-        if (maritalStatus != originalMaritalStatus) {
-            String notificationString = format(NOTIFICATION_STRING, id, firstName, lastName, originalMaritalStatus, maritalStatus);
-
-            Notification notification = new Notification(notificationString);
-            //notificationEvent.fire(notification);
-            getBeanManager().fireEvent(notification);
-        }
-
     }
 
+    @JsonIgnore
     public Date getCreationDate() {
         return creationDate;
     }
@@ -109,6 +92,7 @@ public class Person implements Auditable, Serializable {
         this.creationDate = creationDate;
     }
 
+    @JsonIgnore
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
@@ -117,6 +101,7 @@ public class Person implements Auditable, Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    @JsonIgnore
     public MaritalStatus getOriginalMaritalStatus() {
         return originalMaritalStatus;
     }
@@ -125,20 +110,4 @@ public class Person implements Auditable, Serializable {
         this.originalMaritalStatus = originalMaritalStatus;
     }
 
-    private BeanManager getBeanManager() {
-        if (beanManager == null) {
-            beanManager = CDI.current().getBeanManager();
-        }
-        return beanManager;
-    }
-
-    @VisibleForTesting
-    public void setNotificationEvent(Event<Notification> notificationEvent) {
-        this.notificationEvent = notificationEvent;
-    }
-
-    @VisibleForTesting
-    public void setBeanManager(BeanManager beanManager) {
-        this.beanManager = beanManager;
-    }
 }

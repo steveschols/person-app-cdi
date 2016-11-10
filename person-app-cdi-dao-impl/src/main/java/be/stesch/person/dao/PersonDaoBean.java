@@ -4,6 +4,7 @@ import be.stesch.person.model.Person;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
