@@ -1,4 +1,4 @@
-package be.stesch.person.web.resource;
+package be.stesch.person.web.rs.resource;
 
 import be.stesch.person.business.CreatePersonBO;
 import be.stesch.person.business.GetPersonBO;
@@ -61,9 +61,12 @@ public class PersonResource {
         getPersonBO.setId(personId);
         Person person = getPersonBO.execute();
 
-        return status(OK)
-                .entity(person)
-                .build();
+        if (person != null) {
+            return status(OK)
+                    .entity(person)
+                    .build();
+        }
+        return status(NOT_FOUND).build();
     }
 
 }

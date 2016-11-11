@@ -80,7 +80,7 @@
                     <formatWadlFile>true</formatWadlFile>
                     <baseUri>http://localhost:8080/person-app</baseUri>
                     <packagesResourceConfig>
-                        <param>be.stesch.person.web.resource</param>
+                        <param>be.stesch.person.web.rs.resource</param>
                     </packagesResourceConfig>
                     <wadlGenerators>
                         <wadlGeneratorDescription>

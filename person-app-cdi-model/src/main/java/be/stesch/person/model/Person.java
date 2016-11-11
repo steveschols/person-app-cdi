@@ -3,11 +3,14 @@ package be.stesch.person.model;
 import be.stesch.person.model.listener.AuditEntityListener;
 import be.stesch.person.model.listener.OriginalStateEntityListener;
 import com.google.common.annotations.VisibleForTesting;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
@@ -57,11 +60,11 @@ public class Person implements Auditable, UriGenerating, Serializable {
     }
 
     @JsonIgnore
+    @XmlTransient
     public Long getId() {
         return id;
     }
 
-    @XmlElement
     public String getFirstName() {
         return firstName;
     }
@@ -70,7 +73,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.firstName = firstName;
     }
 
-    @XmlElement
     public String getLastName() {
         return lastName;
     }
@@ -79,7 +81,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.lastName = lastName;
     }
 
-    @XmlElement
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
@@ -89,6 +90,7 @@ public class Person implements Auditable, UriGenerating, Serializable {
     }
 
     @JsonIgnore
+    @XmlTransient
     public Date getCreationDate() {
         return creationDate;
     }
@@ -98,6 +100,7 @@ public class Person implements Auditable, UriGenerating, Serializable {
     }
 
     @JsonIgnore
+    @XmlTransient
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
@@ -107,6 +110,7 @@ public class Person implements Auditable, UriGenerating, Serializable {
     }
 
     @JsonIgnore
+    @XmlTransient
     public MaritalStatus getOriginalMaritalStatus() {
         return originalMaritalStatus;
     }
@@ -117,6 +121,7 @@ public class Person implements Auditable, UriGenerating, Serializable {
 
     @Override
     @JsonIgnore
+    @XmlTransient
     public URI getUri() {
         return getPersonUri(id);
     }

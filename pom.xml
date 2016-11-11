@@ -125,7 +125,11 @@
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-jackson-provider</artifactId>
                 <version>3.0.19.Final</version>
-                <scope>provided</scope>
+                <!--
+                Strange that I need to include jackson in the EAR libs to make Jackson work,
+                instead of referring to the existing Jackson JBoss module in a jboss-deployment-structure.xml
+                -->
+                <!--<scope>provided</scope>-->
             </dependency>
             <dependency>
                 <groupId>xerces</groupId>

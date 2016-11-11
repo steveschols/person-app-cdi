@@ -1,4 +1,4 @@
-package be.stesch.person.web;
+package be.stesch.person.web.rs;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

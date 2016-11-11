@@ -1,4 +1,4 @@
-package be.stesch.person.web.resource;
+package be.stesch.person.web.rs.resource;
 
 import be.stesch.person.business.CreatePersonBO;
 import be.stesch.person.business.GetPersonBO;
