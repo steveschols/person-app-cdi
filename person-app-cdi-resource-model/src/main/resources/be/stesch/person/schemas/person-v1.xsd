@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:prs="http://schemas.stesch.be/person/person/v1"
+           targetNamespace="http://schemas.stesch.be/person/person/v1">
+    <xs:element name="personType" type="prs:personType"/>
+    <xs:complexType name="personType">
+        <xs:sequence>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="maritalStatus">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="SINGLE"/>
+                        <xs:enumeration value="MARRIED"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="uri" type="xs:anyURI"/>
+    </xs:complexType>
+</xs:schema>

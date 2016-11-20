@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+>
+    <jxb:bindings schemaLocation="../schemas/person-v1.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="be.stesch.person.person.v1"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    <jxb:bindings schemaLocation="../schemas/business-exception-v1.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="be.stesch.person.common.v1"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    .
+</jxb:bindings>

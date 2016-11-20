@@ -1,18 +1,16 @@
 package be.stesch.person.business;
 
+import be.stesch.person.common.exception.BusinessException;
+
 /**
  * Created by Steve Schols on 11/9/2016.
  */
 public interface BusinessObject<T> {
 
     default T execute() {
-        try {
-            return onExecute();
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
+        return onExecute();
     }
 
-    T onExecute() throws Exception;
+    T onExecute() throws BusinessException;
 
 }

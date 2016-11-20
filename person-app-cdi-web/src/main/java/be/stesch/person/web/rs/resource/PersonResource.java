@@ -1,18 +1,17 @@
 package be.stesch.person.web.rs.resource;
 
-import be.stesch.person.business.CreatePersonBO;
-import be.stesch.person.business.GetPersonBO;
-import be.stesch.person.business.UpdatePersonBO;
-import be.stesch.person.model.Person;
+import be.stesch.person.adapter.PersonAdapter;
+import be.stesch.person.common.exception.BusinessException;
+import be.stesch.person.person.v1.PersonType;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import static be.stesch.person.common.URIFactory.*;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static be.stesch.person.common.web.PersonAppURIFactory.*;
+import static be.stesch.person.web.rs.common.PersonAppMediaType.PERSON_V1_JSON;
+import static be.stesch.person.web.rs.common.PersonAppMediaType.PERSON_V1_XML;
 import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.status;
 
@@ -24,46 +23,39 @@ import static javax.ws.rs.core.Response.status;
 public class PersonResource {
 
     @Inject
-    private CreatePersonBO createPersonBO;
-    @Inject
-    private UpdatePersonBO updatePersonBO;
-    @Inject
-    private GetPersonBO getPersonBO;
+    private PersonAdapter personAdapter;
 
     @POST
-    @Consumes({APPLICATION_JSON, APPLICATION_XML})
-    public Response createPerson(Person person) {
-        createPersonBO.setPerson(person);
-        Person createdPerson = createPersonBO.execute();
+    @Consumes({PERSON_V1_JSON, PERSON_V1_XML})
+    public Response createPerson(PersonType personType) throws BusinessException {
+        Long personId = personAdapter.createPerson(personType);
 
         return status(CREATED)
-                .contentLocation(createdPerson.getUri())
+                .contentLocation(getPersonUri(personId))
                 .build();
     }
 
     @PUT
     @Path(PERSON_ID_PATH)
-    @Consumes({APPLICATION_JSON, APPLICATION_XML})
-    public Response updatePerson(@PathParam(PERSON_ID_PATH_PARAM) String personId, Person person) {
-        updatePersonBO.setId(personId);
-        updatePersonBO.setPerson(person);
-        Person updatedPerson = updatePersonBO.execute();
+    @Consumes({PERSON_V1_JSON, PERSON_V1_XML})
+    public Response updatePerson(@PathParam(PERSON_ID_PATH_PARAM) Long personId, PersonType personType)
+            throws BusinessException {
+        personId = personAdapter.updatePerson(personId, personType);
 
         return status(NO_CONTENT)
-                .contentLocation(updatedPerson.getUri())
+                .contentLocation(getPersonUri(personId))
                 .build();
     }
 
     @GET
     @Path(PERSON_ID_PATH)
-    @Produces({APPLICATION_JSON, APPLICATION_XML})
-    public Response getPerson(@PathParam(PERSON_ID_PATH_PARAM) String personId) {
-        getPersonBO.setId(personId);
-        Person person = getPersonBO.execute();
+    @Produces({PERSON_V1_JSON, PERSON_V1_XML})
+    public Response getPerson(@PathParam(PERSON_ID_PATH_PARAM) Long personId) throws BusinessException {
+        PersonType personType = personAdapter.getPerson(personId);
 
-        if (person != null) {
+        if (personType != null) {
             return status(OK)
-                    .entity(person)
+                    .entity(personType)
                     .build();
         }
         return status(NOT_FOUND).build();

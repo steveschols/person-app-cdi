@@ -17,6 +17,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10.1</version>
                 <configuration>
                     <generateApplicationXml>true</generateApplicationXml>
                     <includeLibInApplicationXml>false</includeLibInApplicationXml>
@@ -48,26 +49,38 @@
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-dao-api</artifactId>
-            <type>ejb</type>
+            <!--<type>ejb</type>-->
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-dao-impl</artifactId>
-            <type>ejb</type>
+            <!--<type>ejb</type>-->
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-service-api</artifactId>
-            <type>ejb</type>
+            <!--<type>ejb</type>-->
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-service-impl</artifactId>
-            <type>ejb</type>
+            <!--<type>ejb</type>-->
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-business</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-resource-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-adapter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-adapter-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>

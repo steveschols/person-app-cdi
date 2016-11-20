@@ -1,69 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="31e26e7c-3e09-4854-b553-ff27e552ab34" activeEnvironment="Default" name="person-app" resourceRoot="" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="1fdcf723-a616-41be-a903-e130120d2f11" wadlVersion="http://wadl.dev.java.net/2009/02" name="A message in the WADL" type="rest" basePath="/person-app" definitionUrl="C:\Users\Steve Schols\IdeaProjects\person-app-cdi\person-app-cdi-web\target\classes\person-app.wadl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/Users/Steve%20Schols/IdeaProjects/person-app-cdi/person-app-cdi-web/target/classes/person-app.wadl"><con:part><con:url>file:/C:/Users/Steve%20Schols/IdeaProjects/person-app-cdi/person-app-cdi-web/target/classes/person-app.wadl</con:url><con:content><![CDATA[<application xmlns="http://wadl.dev.java.net/2009/02">
-  <doc jersey:generatedBy="Jersey: 1.19.3 10/24/2016 03:43 PM" xmlns:jersey="http://jersey.java.net/"/>
-  <doc title="A message in the WADL" xml:lang="en">This is added to the start of the generated application.wadl</doc>
-  <grammars>
-    <include href="xsd0.xsd">
-      <doc/>
-    </include>
-  </grammars>
-  <resources base="http://localhost:8080/person-app">
-    <resource path="/person-services/persons">
-      <method id="createPerson" name="POST">
-        <request>
-          <ns2:representation element="person" mediaType="application/json" xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" xmlns:ns="http://wadl.dev.java.net/2009/02"/>
-          <ns2:representation element="person" mediaType="application/xml" xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" xmlns:ns="http://wadl.dev.java.net/2009/02"/>
-        </request>
-        <response>
-          <representation mediaType="*/*"/>
-        </response>
-      </method>
-      <resource path="{personId}">
-        <param name="personId" style="template" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <method id="updatePerson" name="PUT">
-          <request>
-            <ns2:representation element="person" mediaType="application/json" xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" xmlns:ns="http://wadl.dev.java.net/2009/02"/>
-            <ns2:representation element="person" mediaType="application/xml" xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" xmlns:ns="http://wadl.dev.java.net/2009/02"/>
-          </request>
-          <response>
-            <representation mediaType="*/*"/>
-          </response>
-        </method>
-        <method id="getPerson" name="GET">
-          <response>
-            <representation mediaType="application/json"/>
-            <representation mediaType="application/xml"/>
-          </response>
-        </method>
-      </resource>
-    </resource>
-  </resources>
-</application>]]></con:content><con:type>http://wadl.dev.java.net/2009/02</con:type></con:part><con:part><con:url>file:\C:\Users\Steve%20Schols\IdeaProjects\person-app-cdi\person-app-cdi-web\target\classes\xsd0.xsd</con:url><con:content><![CDATA[<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="person" type="person"/>
-  <xs:complexType name="person">
-    <xs:sequence>
-      <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
-      <xs:element name="firstName" type="xs:string" minOccurs="0"/>
-      <xs:element name="lastName" type="xs:string" minOccurs="0"/>
-      <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
-      <xs:element name="maritalStatus" type="maritalStatus" minOccurs="0"/>
-      <xs:element name="originalMaritalStatus" type="maritalStatus" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:simpleType name="maritalStatus">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="SINGLE"/>
-      <xs:enumeration value="MARRIED"/>
-    </xs:restriction>
-  </xs:simpleType>
-</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080</con:endpoint></con:endpoints><con:resource name="person-services/persons" path="person-services/persons" id="06618792-317d-4cc9-9b20-f2d6f7033bf9"><con:settings/><con:parameters/><con:resource name="{personId}" path="{personId}" id="5f1420e6-193b-4177-93a3-a47e8cfb1b61"><con:settings/><con:parameters><con:parameter><con:name>personId</con:name><con:value xsi:nil="true"/><con:style>TEMPLATE</con:style><con:default xsi:nil="true"/></con:parameter></con:parameters><con:method name="GET - getPerson" id="ddab9b67-15d7-40ec-a2a4-c72e28befac1" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE" id=""><con:mediaType>application/json</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/xml</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" id="29956402-7337-4e09-9ad9-b1f3c8e853fc" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/person-app/person-services/persons/1</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/></con:parameters></con:request></con:method><con:method name="PUT - updatePerson" id="e112bb53-bfba-4588-ba1b-b9530b439107" method="PUT"><con:settings/><con:parameters/><con:representation type="REQUEST" id=""><con:mediaType>application/json</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="REQUEST" id=""><con:mediaType>application/xml</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>*/*</con:mediaType><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" id="d488102f-90ba-4832-904e-e9b51ceed06e" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request>{
+<con:soapui-project id="09920f37-d4e3-4e9e-891e-c1e22da93a72" activeEnvironment="Default" name="person-app"
+                    soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" resourceRoot=""
+                    xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:interface xsi:type="con:RestService" id="221b4dab-251a-4798-9fef-80d400693830"
+                   wadlVersion="http://wadl.dev.java.net/2009/02" name="A message in the WADL" type="rest"
+                   basePath="/person-app"
+                   definitionUrl="file:/C:/Projects/Personal/person-app-cdi-master/person-app-cdi-web/target/classes/person-app.wadl"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache/>
+        <con:endpoints>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+        </con:endpoints>
+        <con:resource name="/person-services/persons" path="/person-services/persons"
+                      id="f21a8aa7-e930-4ada-a02c-c7ef24539b7e">
+            <con:settings/>
+            <con:parameters/>
+            <con:resource name="{personId}" path="{personId}" id="a75061df-8486-4a8b-a98e-07ca628977f0">
+                <con:settings/>
+                <con:parameters>
+                    <con:parameter>
+                        <con:name>personId</con:name>
+                        <con:value xsi:nil="true"/>
+                        <con:style>TEMPLATE</con:style>
+                        <con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:long</con:type>
+                        <con:default xsi:nil="true"/>
+                    </con:parameter>
+                </con:parameters>
+                <con:method name="GET - getPerson" id="48f7e16e-e1e0-4741-acd5-4ae9ecee0f7b" method="GET">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="RESPONSE" id="">
+                        <con:mediaType>application/prs.person.v1+json</con:mediaType>
+                        <con:params/>
+                        <con:element xsi:nil="true"/>
+                        <con:description xsi:nil="true"/>
+                    </con:representation>
+                    <con:representation type="RESPONSE" id="">
+                        <con:mediaType>application/prs.person.v1+xml</con:mediaType>
+                        <con:params/>
+                        <con:element xsi:nil="true"/>
+                        <con:description xsi:nil="true"/>
+                    </con:representation>
+                    <con:request name="Request 1" id="d18c0e8d-0513-4790-9ee4-83a12228fb9c"
+                                 mediaType="application/json">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry
+                                key="Accept" value="application/prs.person.v1+xml"
+                                xmlns="http://eviware.com/soapui/config"/>
+                            </con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:8080</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://localhost/person-app/person-services/persons/1</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/>
+                        </con:parameters>
+                    </con:request>
+                </con:method>
+                <con:method name="PUT - updatePerson" id="d12f3d3e-1973-4e8e-997e-d6dfebafb08a" method="PUT">
+                    <con:settings/>
+                    <con:parameters/>
+                    <con:representation type="REQUEST" id="">
+                        <con:mediaType>application/prs.person.v1+json</con:mediaType>
+                        <con:params/>
+                        <con:element xsi:nil="true"/>
+                        <con:description xsi:nil="true"/>
+                    </con:representation>
+                    <con:representation type="REQUEST" id="">
+                        <con:mediaType>application/prs.person.v1+xml</con:mediaType>
+                        <con:params/>
+                        <con:element xsi:nil="true"/>
+                        <con:description xsi:nil="true"/>
+                    </con:representation>
+                    <con:representation type="RESPONSE" id="">
+                        <con:mediaType>*/*</con:mediaType>
+                        <con:params/>
+                        <con:element xsi:nil="true"/>
+                        <con:description xsi:nil="true"/>
+                    </con:representation>
+                    <con:request name="Request JSON" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd"
+                                 mediaType="application/prs.person.v1+json" postQueryString="false">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:8080</con:endpoint>
+                        <con:request>{
 	"firstName":"Steve",
 	"lastName":"Schols",
 	"maritalStatus":"SINGLE"
 }
-</con:request><con:originalUri>http://localhost/person-app/person-services/persons/1</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/></con:parameters></con:request></con:method></con:resource><con:method name="POST - createPerson" id="934e94e6-b332-443a-a7e6-0b5cbfb7a04b" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST" id=""><con:mediaType>application/json</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="REQUEST" id=""><con:mediaType>application/xml</con:mediaType><con:params/><con:element>person</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>*/*</con:mediaType><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" id="fb5d902f-e2bf-454b-a0c9-2a18eb26838f" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request>{
+                        </con:request>
+                        <con:originalUri>http://localhost/person-app/person-services/persons/1</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <entry key="personId" value="2" xmlns="http://eviware.com/soapui/config"/>
+                        </con:parameters>
+                    </con:request>
+                    <con:request name="Request XML" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd"
+                                 mediaType="application/prs.person.v1+xml" postQueryString="false">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry
+                                key="Accept" value="application/prs.business-exception.v1+xml"
+                                xmlns="http://eviware.com/soapui/config"/>
+                            </con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:8080</con:endpoint>
+                        <con:request><![CDATA[<personType xmlns="http://schemas.stesch.be/person/person/v1">
+   <firstName>Steve</firstName>
+   <lastName>Schols</lastName>
+   <maritalStatus>MARRIED</maritalStatus>
+</personType>]]></con:request>
+                        <con:originalUri>http://localhost/person-app/person-services/persons/1</con:originalUri>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters>
+                            <entry key="personId" value="2" xmlns="http://eviware.com/soapui/config"/>
+                        </con:parameters>
+                    </con:request>
+                </con:method>
+            </con:resource>
+            <con:method name="POST - createPerson" id="13467bb2-2cd2-4f5f-8337-332c93604616" method="POST">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="REQUEST" id="">
+                    <con:mediaType>application/prs.person.v1+json</con:mediaType>
+                    <con:params/>
+                    <con:element xsi:nil="true"/>
+                    <con:description xsi:nil="true"/>
+                </con:representation>
+                <con:representation type="REQUEST" id="">
+                    <con:mediaType>application/prs.person.v1+xml</con:mediaType>
+                    <con:params/>
+                    <con:element xsi:nil="true"/>
+                    <con:description xsi:nil="true"/>
+                </con:representation>
+                <con:representation type="RESPONSE" id="">
+                    <con:mediaType>*/*</con:mediaType>
+                    <con:params/>
+                    <con:element xsi:nil="true"/>
+                    <con:description xsi:nil="true"/>
+                </con:representation>
+                <con:request name="Request JSON" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687"
+                             mediaType="application/prs.person.v1+json" postQueryString="false">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request>{
 	"firstName":"Steve",
 	"lastName":"Schols",
 	"maritalStatus":"MARRIED"
 }
-</con:request><con:originalUri>http://localhost/person-app/person-services/persons</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
+                    </con:request>
+                    <con:originalUri>http://localhost/person-app/person-services/persons</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+                <con:request name="Request XML" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687"
+                             mediaType="application/prs.person.v1+xml" postQueryString="false">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:8080</con:endpoint>
+                    <con:request><![CDATA[<personType xmlns="http://schemas.stesch.be/person/person/v1">
+   <firstName>Steve</firstName>
+   <lastName>Schols</lastName>
+   <maritalStatus>SINGLE</maritalStatus>
+</personType>]]></con:request>
+                    <con:originalUri>http://localhost/person-app/person-services/persons</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+            </con:method>
+        </con:resource>
+    </con:interface>
+    <con:properties/>
+    <con:wssContainer/>
+    <con:oAuth2ProfileContainer/>
+</con:soapui-project>

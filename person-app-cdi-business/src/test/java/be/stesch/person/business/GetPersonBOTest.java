@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
-import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -35,7 +33,7 @@ public class GetPersonBOTest {
 
         when(personService.findPerson(personId)).thenReturn(person);
 
-        getPersonBO.setId(valueOf(personId));
+        getPersonBO.setId(personId);
         Person foundPerson = getPersonBO.execute();
 
         verify(personService).findPerson(personId);

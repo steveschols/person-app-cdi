@@ -7,6 +7,7 @@ import be.stesch.person.service.PersonService;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 
 /**
  * @author Steve Schols
@@ -20,8 +21,10 @@ public class PersonServiceBean implements PersonService {
 
     @Override
     @Transactional
-    public void createPerson(Person person) {
+    public Serializable createPerson(Person person) {
         personDao.persist(person);
+
+        return person.getId();
     }
 
     @Override

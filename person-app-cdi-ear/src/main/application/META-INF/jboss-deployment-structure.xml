@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-deployment-structure>
-    <!--<sub-deployment name="person-app-cdi-web-1.0-SNAPSHOT.war">-->
     <deployment>
         <dependencies>
-            <!--<module name="org.codehaus.jackson.jackson-mapper-asl"/>-->
-            <!--<module name="org.jboss.resteasy.resteasy-jackson-provider" services="import" export="true"/>-->
+            <module name="org.jboss.resteasy.resteasy-jackson-provider" export="true"/>
         </dependencies>
     </deployment>
-    <!--</sub-deployment>-->
 
 </jboss-deployment-structure>

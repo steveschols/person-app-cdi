@@ -3,19 +3,11 @@ package be.stesch.person.model;
 import be.stesch.person.model.listener.AuditEntityListener;
 import be.stesch.person.model.listener.OriginalStateEntityListener;
 import com.google.common.annotations.VisibleForTesting;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jboss.resteasy.annotations.providers.jaxb.IgnoreMediaTypes;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.net.URI;
 import java.util.Date;
 
-import static be.stesch.person.common.URIFactory.getPersonUri;
 import static javax.persistence.EnumType.STRING;
 
 /**
@@ -24,8 +16,7 @@ import static javax.persistence.EnumType.STRING;
  */
 @Entity
 @EntityListeners({AuditEntityListener.class, OriginalStateEntityListener.class})
-@XmlRootElement
-public class Person implements Auditable, UriGenerating, Serializable {
+public class Person implements Auditable, Serializable {
 
     @Id
     @GeneratedValue
@@ -45,7 +36,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
 
     private Date lastUpdateDate;
 
-    @Transient
     private MaritalStatus originalMaritalStatus;
 
     public Person() {
@@ -59,8 +49,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -89,8 +77,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public Date getCreationDate() {
         return creationDate;
     }
@@ -99,8 +85,6 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.creationDate = creationDate;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
@@ -109,21 +93,12 @@ public class Person implements Auditable, UriGenerating, Serializable {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public MaritalStatus getOriginalMaritalStatus() {
         return originalMaritalStatus;
     }
 
     public void setOriginalMaritalStatus(MaritalStatus originalMaritalStatus) {
         this.originalMaritalStatus = originalMaritalStatus;
-    }
-
-    @Override
-    @JsonIgnore
-    @XmlTransient
-    public URI getUri() {
-        return getPersonUri(id);
     }
 
 }

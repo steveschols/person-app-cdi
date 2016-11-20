@@ -1,11 +1,11 @@
 package be.stesch.person.web.rs.resource;
 
-import be.stesch.person.business.CreatePersonBO;
-import be.stesch.person.business.GetPersonBO;
-import be.stesch.person.business.UpdatePersonBO;
-import be.stesch.person.model.Person;
+import be.stesch.person.adapter.PersonAdapter;
+import be.stesch.person.common.web.PersonAppURIFactory;
+import be.stesch.person.person.v1.PersonType;
 import be.stesch.person.test.util.JaxbTestUtils;
 import be.stesch.person.test.util.JsonTestUtils;
+import be.stesch.person.web.rs.common.PersonAppMediaType;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -17,11 +17,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URISyntaxException;
 
-import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static be.stesch.person.common.web.PersonAppURIFactory.getPersonUri;
+import static be.stesch.person.web.rs.common.PersonAppMediaType.PERSON_V1_JSON;
+import static be.stesch.person.web.rs.common.PersonAppMediaType.PERSON_V1_XML;
 import static javax.servlet.http.HttpServletResponse.*;
 import static javax.ws.rs.core.HttpHeaders.CONTENT_LOCATION;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static org.hamcrest.Matchers.*;
 import static org.jboss.resteasy.mock.MockDispatcherFactory.createDispatcher;
 import static org.jboss.resteasy.mock.MockHttpRequest.*;
@@ -36,49 +36,69 @@ import static org.mockito.Mockito.when;
 public class PersonResourceTest {
 
     @Mock
-    private CreatePersonBO createPersonBO;
-    @Mock
-    private UpdatePersonBO updatePersonBO;
-    @Mock
-    private GetPersonBO getPersonBO;
+    private PersonAdapter personAdapter;
 
     @InjectMocks
     private PersonResource personResource;
 
     @Test
     public void testCreatePersonJson() throws Exception {
-        Person createdPerson = new Person(1L, "John", "Doe", SINGLE);
-        testCreatePerson(JsonTestUtils.convert(new Person(null, "John", "Doe", SINGLE)), createdPerson, APPLICATION_JSON);
+        PersonType personType = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testCreatePerson(personType, 1L, PERSON_V1_JSON);
     }
 
     @Test
     public void testCreatePersonXml() throws Exception {
-        Person createdPerson = new Person(1L, "John", "Doe", SINGLE);
-        testCreatePerson(JaxbTestUtils.convert(new Person(null, "John", "Doe", SINGLE)), createdPerson, APPLICATION_XML);
+        PersonType personType = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testCreatePerson(personType, 1L, PERSON_V1_XML);
     }
 
     @Test
     public void testUpdatePersonJson() throws Exception {
-        Person updatedPerson = new Person(1L, "John", "Doe", SINGLE);
-        testUpdatePerson(JsonTestUtils.convert(new Person(null, "John", "Doe", SINGLE)), updatedPerson, APPLICATION_JSON);
+        PersonType personType = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testUpdatePerson(personType, 1L, PERSON_V1_JSON);
     }
 
     @Test
     public void testUpdatePersonXml() throws Exception {
-        Person updatedPerson = new Person(1L, "John", "Doe", SINGLE);
-        testUpdatePerson(JaxbTestUtils.convert(new Person(null, "John", "Doe", SINGLE)), updatedPerson, APPLICATION_XML);
+        PersonType personType = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testUpdatePerson(personType, 1L, PERSON_V1_XML);
     }
 
     @Test
     public void testGetPersonJson() throws Exception {
-        Person foundPerson = new Person(1L, "John", "Doe", SINGLE);
-        testGetPerson(foundPerson, APPLICATION_JSON);
+        PersonType returnedPerson = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testGetPerson(1L, returnedPerson, PERSON_V1_JSON);
     }
 
     @Test
     public void testGetPersonXml() throws Exception {
-        Person foundPerson = new Person(1L, "John", "Doe", SINGLE);
-        testGetPerson(foundPerson, APPLICATION_XML);
+        PersonType returnedPerson = new PersonType()
+                .withFirstName("John")
+                .withLastName("Doe")
+                .withMaritalStatus("SINGLE");
+
+        testGetPerson(1L, returnedPerson, PERSON_V1_XML);
     }
 
     private Dispatcher getDispatcher() {
@@ -88,57 +108,69 @@ public class PersonResourceTest {
         return dispatcher;
     }
 
-    private void testCreatePerson(byte[] personByteArray, Person createdPerson, String mediaType)
+    private void testCreatePerson(PersonType personType, Long returnedPersonId, String mediaType)
             throws Exception {
         Dispatcher dispatcher = getDispatcher();
         MockHttpRequest request = post("/person-services/persons").contentType(mediaType);
         MockHttpResponse response = new MockHttpResponse();
-        request.content(personByteArray);
+        request.content(convertPersonType(personType, mediaType));
 
-        when(createPersonBO.execute()).thenReturn(createdPerson);
+        when(personAdapter.createPerson(personType)).thenReturn(returnedPersonId);
 
         dispatcher.invoke(request, response);
 
-        verify(createPersonBO).execute();
+        verify(personAdapter).createPerson(personType);
         assertThat(response.getStatus(), is(SC_CREATED));
         assertThat(response.getOutputHeaders(), hasKey(CONTENT_LOCATION));
-        assertThat(response.getOutputHeaders().get(CONTENT_LOCATION), hasItem(createdPerson.getUri()));
+        assertThat(response.getOutputHeaders().get(CONTENT_LOCATION), hasItem(getPersonUri(returnedPersonId)));
         assertThat(response.getContentAsString(), is(isEmptyString()));
     }
 
-    private void testUpdatePerson(byte[] personByteArray, Person updatedPerson, String mediaType)
+    private void testUpdatePerson(PersonType personType, Long returnedPersonId, String mediaType)
             throws Exception {
         Dispatcher dispatcher = getDispatcher();
         MockHttpRequest request = put("/person-services/persons/1").contentType(mediaType);
         MockHttpResponse response = new MockHttpResponse();
-        request.content(personByteArray);
+        request.content(convertPersonType(personType, mediaType));
 
-        when(updatePersonBO.execute()).thenReturn(updatedPerson);
+        when(personAdapter.updatePerson(returnedPersonId, personType)).thenReturn(returnedPersonId);
 
         dispatcher.invoke(request, response);
 
-        verify(updatePersonBO).execute();
+        verify(personAdapter).updatePerson(returnedPersonId, personType);
         assertThat(response.getStatus(), is(SC_NO_CONTENT));
         assertThat(response.getOutputHeaders(), hasKey(CONTENT_LOCATION));
-        assertThat(response.getOutputHeaders().get(CONTENT_LOCATION), hasItem(updatedPerson.getUri()));
+        assertThat(response.getOutputHeaders().get(CONTENT_LOCATION), hasItem(PersonAppURIFactory.getPersonUri(returnedPersonId)));
         assertThat(response.getContentAsString(), is(isEmptyString()));
     }
 
-    private void testGetPerson(Person person, String mediaType) throws URISyntaxException {
+    private void testGetPerson(Long personId, PersonType returnedPersonType, String mediaType) throws URISyntaxException {
         Dispatcher dispatcher = getDispatcher();
         MockHttpRequest request = get("/person-services/persons/1").accept(mediaType);
         MockHttpResponse response = new MockHttpResponse();
 
-        when(getPersonBO.execute()).thenReturn(person);
+        when(personAdapter.getPerson(personId)).thenReturn(returnedPersonType);
 
         dispatcher.invoke(request, response);
 
-        verify(getPersonBO).execute();
+        verify(personAdapter).getPerson(personId);
         assertThat(response.getStatus(), is(SC_OK));
-        assertThat(response.getContentAsString(), containsString(person.getFirstName()));
-        assertThat(response.getContentAsString(), containsString(person.getLastName()));
-        assertThat(response.getContentAsString(), containsString(person.getMaritalStatus().toString()));
+        assertThat(response.getContentAsString(), containsString(returnedPersonType.getFirstName()));
+        assertThat(response.getContentAsString(), containsString(returnedPersonType.getLastName()));
+        assertThat(response.getContentAsString(), containsString(returnedPersonType.getMaritalStatus()));
         assertThat(response.getOutputHeaders(), not(hasKey(CONTENT_LOCATION)));
+    }
+
+    private byte[] convertPersonType(PersonType personType, String mediaType) throws Exception {
+        byte[] personByteArray;
+        if (PersonAppMediaType.PERSON_V1_JSON.equals(mediaType)) {
+            personByteArray = JsonTestUtils.convert(personType);
+        } else if (PersonAppMediaType.PERSON_V1_XML.equals(mediaType)) {
+            personByteArray = JaxbTestUtils.convert(personType, PersonType.class);
+        } else {
+            throw new IllegalArgumentException("MediaType " + mediaType + " not supported!");
+        }
+        return personByteArray;
     }
 
 }

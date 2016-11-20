@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:cmn="http://schemas.stesch.be/person/common/v1"
+           targetNamespace="http://schemas.stesch.be/person/common/v1">
+    <xs:element name="businessExceptionType" type="cmn:businessExceptionType"/>
+    <xs:complexType name="businessExceptionType">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="correlationId" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>

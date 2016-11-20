@@ -28,12 +28,16 @@ public class CreatePersonBOTest {
 
     @Test
     public void testCreatePerson() throws Exception {
+        Long personId = 1L;
         Person person = new Person(null, "John", "Doe", MARRIED);
 
         createPersonBO.setPerson(person);
-        Person createdPerson = createPersonBO.execute();
+
+        when(personService.createPerson(person)).thenReturn(personId);
+
+        Long createdPersonId = createPersonBO.execute();
 
         verify(personService).createPerson(person);
-        assertThat(createdPerson, is(person));
+        assertThat(createdPersonId, is(personId));
     }
 }

@@ -17,6 +17,9 @@
         <module>person-app-cdi-web</module>
         <module>person-app-cdi-ear</module>
         <module>person-app-cdi-business</module>
+        <module>person-app-cdi-resource-model</module>
+        <module>person-app-cdi-adapter-api</module>
+        <module>person-app-cdi-adapter-impl</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -27,20 +30,45 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
         <org.slf4j.version>1.7.21</org.slf4j.version>
+        <!--<org.mockito.version>2.2.17</org.mockito.version>-->
+        <org.mockito.version>2.0.42-beta</org.mockito.version>
         <org.unitils.version>3.3</org.unitils.version>
         <!--<org.unitils.version>3.4.3</org.unitils.version>-->
+        <powermock.version>1.6.6</powermock.version>
     </properties>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.3</version>
+                    <configuration>
+                        <source>${jdk.version}</source>
+                        <target>${jdk.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -67,31 +95,46 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-dao-api</artifactId>
                 <version>${project.version}</version>
-                <type>ejb</type>
+                <!--<type>ejb</type>-->
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-dao-impl</artifactId>
                 <version>${project.version}</version>
                 <scope>runtime</scope>
-                <type>ejb</type>
+                <!--<type>ejb</type>-->
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-service-api</artifactId>
                 <version>${project.version}</version>
-                <type>ejb</type>
+                <!--<type>ejb</type>-->
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-service-impl</artifactId>
                 <version>${project.version}</version>
                 <scope>runtime</scope>
-                <type>ejb</type>
+                <!--<type>ejb</type>-->
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-business</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>be.stesch</groupId>
+                <artifactId>person-app-cdi-adapter-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>be.stesch</groupId>
+                <artifactId>person-app-cdi-adapter-impl</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>be.stesch</groupId>
+                <artifactId>person-app-cdi-resource-model</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -129,7 +172,12 @@
                 Strange that I need to include jackson in the EAR libs to make Jackson work,
                 instead of referring to the existing Jackson JBoss module in a jboss-deployment-structure.xml
                 -->
-                <!--<scope>provided</scope>-->
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.jaxb2_commons</groupId>
+                <artifactId>jaxb2-basics-runtime</artifactId>
+                <version>0.11.1</version>
             </dependency>
             <dependency>
                 <groupId>xerces</groupId>
@@ -176,9 +224,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
@@ -219,7 +267,31 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.2.13</version>
+            <version>${org.mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4-rule</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-classloading-xstream</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -233,6 +305,12 @@
             <artifactId>unitils-dbunit</artifactId>
             <version>${org.unitils.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-nop</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>

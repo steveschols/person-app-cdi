@@ -1,9 +1,12 @@
 package be.stesch.person.business;
 
+import be.stesch.person.common.exception.BusinessException;
 import be.stesch.person.model.Person;
 import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import be.stesch.person.service.PersonService;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,10 +16,9 @@ import javax.enterprise.event.Event;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.isA;
+import static org.junit.rules.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
 /**
@@ -24,6 +26,9 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UpdatePersonBOTest {
+
+    @Rule
+    public ExpectedException expectedException = none();
 
     @Mock
     private PersonService personService;
@@ -36,47 +41,61 @@ public class UpdatePersonBOTest {
     @Test
     public void testUpdatePersonUnmodifiedMaritalStatus() throws Exception {
         Long personId = 1L;
-        Person person = new Person(personId, "Test", "Person", SINGLE);
-        person.setOriginalMaritalStatus(SINGLE);
 
-        when(personService.findPerson(personId)).thenReturn(person);
-        when(personService.updatePerson(person)).thenReturn(person);
+        Person personToUpdate = new Person(personId, "Test", "Person", SINGLE);
+        personToUpdate.setOriginalMaritalStatus(SINGLE);
 
-        updatePersonBO.setId(valueOf(personId));
-        updatePersonBO.setPerson(new Person(personId, "John", "Doe", SINGLE));
-        Person updatedPerson = updatePersonBO.execute();
+        Person updatedPerson = new Person(personId, "John", "Doe", SINGLE);
+
+        when(personService.findPerson(personId)).thenReturn(personToUpdate);
+        when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
+
+        updatePersonBO.setPersonId(personId);
+        updatePersonBO.setPerson(updatedPerson);
+        Long updatedPersonId = updatePersonBO.execute();
 
         verify(personService).findPerson(personId);
-        verify(personService).updatePerson(person);
+        verify(personService).updatePerson(personToUpdate);
         verify(notificationEvent, never()).fire(isA(MaritalStatusChangeEvent.class));
 
-        assertThat(updatedPerson.getId(), is(personId));
-        assertThat(updatedPerson.getFirstName(), is("John"));
-        assertThat(updatedPerson.getLastName(), is("Doe"));
-        assertThat(updatedPerson.getMaritalStatus(), is(SINGLE));
+        assertThat(updatedPersonId, is(personId));
     }
 
     @Test
     public void testUpdatePersonModifiedMaritalStatus() throws Exception {
         Long personId = 1L;
-        Person person = new Person(personId, "Test", "Person", SINGLE);
-        person.setOriginalMaritalStatus(SINGLE);
 
-        when(personService.findPerson(personId)).thenReturn(person);
-        when(personService.updatePerson(person)).thenReturn(person);
+        Person personToUpdate = new Person(personId, "Test", "Person", SINGLE);
+        personToUpdate.setOriginalMaritalStatus(SINGLE);
 
-        updatePersonBO.setId(valueOf(personId));
-        updatePersonBO.setPerson(new Person(personId, "John", "Doe", MARRIED));
-        Person updatedPerson = updatePersonBO.execute();
+        Person updatedPerson = new Person(personId, "John", "Doe", MARRIED);
+
+        when(personService.findPerson(personId)).thenReturn(personToUpdate);
+        when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
+
+        updatePersonBO.setPersonId(personId);
+        updatePersonBO.setPerson(updatedPerson);
+        Long updatedPersonId = updatePersonBO.execute();
 
         verify(personService).findPerson(personId);
-        verify(personService).updatePerson(person);
+        verify(personService).updatePerson(personToUpdate);
         verify(notificationEvent).fire(isA(MaritalStatusChangeEvent.class));
 
-        assertThat(updatedPerson.getId(), is(personId));
-        assertThat(updatedPerson.getFirstName(), is("John"));
-        assertThat(updatedPerson.getLastName(), is("Doe"));
-        assertThat(updatedPerson.getMaritalStatus(), is(MARRIED));
+        assertThat(updatedPersonId, is(personId));
+    }
+
+    @Test
+    public void testUpdatePersonNotFound() throws Exception {
+        Long personId = 1L;
+
+        Person updatedPerson = new Person(personId, "John", "Doe", MARRIED);
+
+        when(personService.findPerson(personId)).thenReturn(null);
+        expectedException.expect(BusinessException.class);
+
+        updatePersonBO.setPersonId(personId);
+        updatePersonBO.setPerson(updatedPerson);
+        updatePersonBO.execute();
     }
 
 }
