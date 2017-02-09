@@ -10,13 +10,14 @@ import static be.stesch.person.model.MaritalStatus.valueOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mapstruct.factory.Mappers.getMapper;
 
 /**
  * Created by u420643 on 11/15/2016.
  */
 public class PersonMapperTest {
 
-    PersonMapper personMapper = new PersonMapper();
+    private PersonMapper personMapper = getMapper(PersonMapper.class);
 
     @Test
     public void testMapToDomain() throws Exception {

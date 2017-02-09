@@ -1,37 +1,25 @@
 package be.stesch.person.adapter.mapper;
 
+import be.stesch.person.common.web.PersonAppURIFactory;
 import be.stesch.person.model.Person;
 import be.stesch.person.person.v1.PersonType;
-
-import javax.enterprise.context.Dependent;
-
-import static be.stesch.person.common.web.PersonAppURIFactory.getPersonUri;
-import static be.stesch.person.model.MaritalStatus.valueOf;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
- * Created by u420643 on 11/15/2016.
+ * Created by u420643 on 2/9/2017.
  */
-@Dependent
-public class PersonMapper {
+@Mapper
+public abstract class PersonMapper {
 
-    public Person mapToDomain(PersonType personType) {
-        Person person = new Person();
-        person.setFirstName(personType.getFirstName());
-        person.setLastName(personType.getLastName());
-        person.setMaritalStatus(valueOf(personType.getMaritalStatus()));
+    public abstract Person mapToDomain(PersonType personType);
 
-        return person;
-    }
+    @Mapping(source = "id", target = "uri", qualifiedBy = {UriMapper.class})
+    public abstract PersonType mapToResource(Person person);
 
-    public PersonType mapToResource(Person person) {
-        if (person != null) {
-            return new PersonType()
-                    .withFirstName(person.getFirstName())
-                    .withLastName(person.getLastName())
-                    .withMaritalStatus(person.getMaritalStatus().name())
-                    .withUri(getPersonUri(person.getId()).toString());
-        }
-        return null;
+    @UriMapper
+    String getPersonUri(Long id) {
+        return PersonAppURIFactory.getPersonUri(id).toString();
     }
 
 }
