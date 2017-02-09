@@ -8,7 +8,6 @@ import be.stesch.person.service.PersonService;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 /**
  * Created by Steve Schols on 11/9/2016.
@@ -25,7 +24,6 @@ public class UpdatePersonBO implements BusinessObject<Long> {
     private Person person;
 
     @Override
-    @Transactional
     public Long onExecute() throws BusinessException {
         Person personToUpdate = personService.findPerson(personId);
         if (personToUpdate == null) {

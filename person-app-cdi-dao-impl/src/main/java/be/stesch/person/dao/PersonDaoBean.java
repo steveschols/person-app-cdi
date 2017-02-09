@@ -2,7 +2,7 @@ package be.stesch.person.dao;
 
 import be.stesch.person.model.Person;
 
-import javax.enterprise.context.Dependent;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
  * @author Steve Schols
  * @since 28/08/2015
  */
-@Dependent
+@Stateless
 public class PersonDaoBean implements PersonDao {
 
     @PersistenceContext

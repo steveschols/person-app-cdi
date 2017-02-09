@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.ejb.EJBException;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
@@ -37,6 +38,13 @@ public class ResourceExceptionMapperTest {
     @Test
     public void testMapBusinessException() throws Exception {
         Response response = resourceExceptionMapper.toResponse(new BusinessException("FUBAR"));
+
+        assertThat(response.getStatus(), is(PRECONDITION_FAILED.getStatusCode()));
+    }
+
+    @Test
+    public void testMapBusinessExceptionWrappedInEJBException() throws Exception {
+        Response response = resourceExceptionMapper.toResponse(new EJBException(new BusinessException("FUBAR")));
 
         assertThat(response.getStatus(), is(PRECONDITION_FAILED.getStatusCode()));
     }

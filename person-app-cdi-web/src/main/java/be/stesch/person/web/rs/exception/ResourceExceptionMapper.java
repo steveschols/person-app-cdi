@@ -5,6 +5,7 @@ import be.stesch.person.common.v1.BusinessExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJBException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -35,13 +36,21 @@ public class ResourceExceptionMapper implements ExceptionMapper<Exception> {
     public Response toResponse(Exception exception) {
         LOGGER.error(exception.getMessage(), exception);
 
-        if (exception instanceof BusinessException) {
+        Throwable cause = unwrapException(exception);
+        if (cause instanceof BusinessException) {
             return status(PRECONDITION_FAILED)
-                    .entity(mapBusinessException((BusinessException) exception))
+                    .entity(mapBusinessException((BusinessException) cause))
                     .type(isJsonExpected() ? BUSINESS_EXCEPTION_V1_JSON : BUSINESS_EXCEPTION_V1_XML)
                     .build();
         }
         return status(INTERNAL_SERVER_ERROR).build();
+    }
+
+    private Throwable unwrapException(Exception exception) {
+        if (exception instanceof EJBException) {
+            return exception.getCause();
+        }
+        return exception;
     }
 
     private BusinessExceptionType mapBusinessException(BusinessException businessException) {

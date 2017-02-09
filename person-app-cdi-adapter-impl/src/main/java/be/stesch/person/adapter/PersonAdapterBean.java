@@ -7,13 +7,13 @@ import be.stesch.person.business.UpdatePersonBO;
 import be.stesch.person.model.Person;
 import be.stesch.person.person.v1.PersonType;
 
-import javax.enterprise.context.Dependent;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
  * Created by u420643 on 11/15/2016.
  */
-@Dependent
+@Stateless
 public class PersonAdapterBean implements PersonAdapter {
 
     @Inject

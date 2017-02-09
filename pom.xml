@@ -30,8 +30,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
         <org.slf4j.version>1.7.21</org.slf4j.version>
-        <!--<org.mockito.version>2.2.17</org.mockito.version>-->
         <org.mockito.version>2.0.42-beta</org.mockito.version>
+        <!--<org.mockito.version>2.2.17</org.mockito.version>-->
         <org.unitils.version>3.3</org.unitils.version>
         <!--<org.unitils.version>3.4.3</org.unitils.version>-->
         <powermock.version>1.6.6</powermock.version>
@@ -95,27 +95,27 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-dao-api</artifactId>
                 <version>${project.version}</version>
-                <!--<type>ejb</type>-->
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-dao-impl</artifactId>
                 <version>${project.version}</version>
                 <scope>runtime</scope>
-                <!--<type>ejb</type>-->
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-service-api</artifactId>
                 <version>${project.version}</version>
-                <!--<type>ejb</type>-->
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-service-impl</artifactId>
                 <version>${project.version}</version>
                 <scope>runtime</scope>
-                <!--<type>ejb</type>-->
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
@@ -126,11 +126,13 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-adapter-api</artifactId>
                 <version>1.0-SNAPSHOT</version>
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-adapter-impl</artifactId>
                 <version>1.0-SNAPSHOT</version>
+                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
