@@ -96,7 +96,6 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-dao-api</artifactId>
                 <version>${project.version}</version>
-                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
@@ -109,7 +108,6 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-service-api</artifactId>
                 <version>${project.version}</version>
-                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
@@ -127,12 +125,12 @@
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-adapter-api</artifactId>
                 <version>1.0-SNAPSHOT</version>
-                <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-adapter-impl</artifactId>
                 <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
                 <type>ejb</type>
             </dependency>
             <dependency>
@@ -196,6 +194,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>be.stesch</groupId>
                 <artifactId>person-app-cdi-persistence</artifactId>
                 <version>${project.version}</version>
@@ -221,12 +225,6 @@
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>3.4.0.GA</version>
                 <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-jdk8</artifactId>
-                <version>${org.mapstruct.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -16,11 +16,6 @@
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-model</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

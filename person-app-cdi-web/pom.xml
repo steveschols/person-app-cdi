@@ -25,8 +25,7 @@
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-adapter-api</artifactId>
-            <type>ejb</type>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>

@@ -4,14 +4,20 @@ import be.stesch.person.dao.PersonDao;
 import be.stesch.person.model.Person;
 import be.stesch.person.service.PersonService;
 
+import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
+
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
 
 /**
  * @author Steve Schols
  * @since 3/09/2015
  */
 @Stateless
+@Local(PersonService.class)
+@TransactionAttribute(SUPPORTS)
 public class PersonServiceBean implements PersonService {
 
     @Inject

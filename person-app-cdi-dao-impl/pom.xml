@@ -15,7 +15,6 @@
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-dao-api</artifactId>
-            <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>be.stesch</groupId>

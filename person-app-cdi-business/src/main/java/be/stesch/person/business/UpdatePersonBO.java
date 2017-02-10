@@ -5,14 +5,14 @@ import be.stesch.person.model.Person;
 import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import be.stesch.person.service.PersonService;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 /**
  * Created by Steve Schols on 11/9/2016.
  */
-@Dependent
+@RequestScoped
 public class UpdatePersonBO implements BusinessObject<Long> {
 
     @Inject

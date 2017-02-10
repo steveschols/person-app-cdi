@@ -4,13 +4,13 @@ import be.stesch.person.common.exception.BusinessException;
 import be.stesch.person.model.Person;
 import be.stesch.person.service.PersonService;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
  * Created by Steve Schols on 11/9/2016.
  */
-@Dependent
+@RequestScoped
 public class GetPersonBO implements BusinessObject<Person> {
 
     @Inject

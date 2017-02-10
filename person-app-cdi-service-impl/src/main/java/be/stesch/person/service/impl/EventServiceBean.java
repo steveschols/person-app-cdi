@@ -5,6 +5,7 @@ import be.stesch.person.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 
@@ -13,6 +14,7 @@ import javax.enterprise.event.Observes;
  * @since 1/09/2015
  */
 @Stateless
+@Local(EventService.class)
 public class EventServiceBean implements EventService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventServiceBean.class);

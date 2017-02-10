@@ -19,7 +19,6 @@
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-service-api</artifactId>
-            <type>ejb</type>
         </dependency>
 
         <dependency>
