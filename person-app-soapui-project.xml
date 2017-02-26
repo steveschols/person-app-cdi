@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="09920f37-d4e3-4e9e-891e-c1e22da93a72" activeEnvironment="Default" name="person-app"
-                    soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" resourceRoot=""
-                    xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project id="09920f37-d4e3-4e9e-891e-c1e22da93a72" activeEnvironment="Default" name="person-app" soapui-version="5.3.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config">
     <con:settings/>
-    <con:interface xsi:type="con:RestService" id="221b4dab-251a-4798-9fef-80d400693830"
-                   wadlVersion="http://wadl.dev.java.net/2009/02" name="A message in the WADL" type="rest"
-                   basePath="/person-app"
-                   definitionUrl="file:/C:/Projects/Personal/person-app-cdi-master/person-app-cdi-web/target/classes/person-app.wadl"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:interface xsi:type="con:RestService" id="221b4dab-251a-4798-9fef-80d400693830" wadlVersion="http://wadl.dev.java.net/2009/02" name="A message in the WADL" type="rest" basePath="/person-app" definitionUrl="file:/C:/Projects/Personal/person-app-cdi-master/person-app-cdi-web/target/classes/person-app.wadl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <con:settings/>
         <con:definitionCache/>
         <con:endpoints>
             <con:endpoint>http://localhost:8080</con:endpoint>
         </con:endpoints>
-        <con:resource name="/person-services/persons" path="/person-services/persons"
-                      id="f21a8aa7-e930-4ada-a02c-c7ef24539b7e">
+        <con:resource name="/person-services/persons" path="/person-services/persons" id="f21a8aa7-e930-4ada-a02c-c7ef24539b7e">
             <con:settings/>
             <con:parameters/>
             <con:resource name="{personId}" path="{personId}" id="a75061df-8486-4a8b-a98e-07ca628977f0">
@@ -43,13 +36,9 @@
                         <con:element xsi:nil="true"/>
                         <con:description xsi:nil="true"/>
                     </con:representation>
-                    <con:request name="Request 1" id="d18c0e8d-0513-4790-9ee4-83a12228fb9c"
-                                 mediaType="application/json">
+                    <con:request name="Request 1" id="d18c0e8d-0513-4790-9ee4-83a12228fb9c" mediaType="application/json">
                         <con:settings>
-                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry
-                                key="Accept" value="application/prs.person.v1+xml"
-                                xmlns="http://eviware.com/soapui/config"/>
-                            </con:setting>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Accept" value="application/prs.person.v1+xml" xmlns="http://eviware.com/soapui/config"/></con:setting>
                         </con:settings>
                         <con:endpoint>http://localhost:8080</con:endpoint>
                         <con:request/>
@@ -59,9 +48,7 @@
                         </con:credentials>
                         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                         <con:jmsPropertyConfig/>
-                        <con:parameters>
-                            <entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/>
-                        </con:parameters>
+                        <con:parameters><entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/></con:parameters>
                     </con:request>
                 </con:method>
                 <con:method name="PUT - updatePerson" id="d12f3d3e-1973-4e8e-997e-d6dfebafb08a" method="PUT">
@@ -85,8 +72,7 @@
                         <con:element xsi:nil="true"/>
                         <con:description xsi:nil="true"/>
                     </con:representation>
-                    <con:request name="Request JSON" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd"
-                                 mediaType="application/prs.person.v1+json" postQueryString="false">
+                    <con:request name="Request JSON" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd" mediaType="application/prs.person.v1+json" postQueryString="false">
                         <con:settings>
                             <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                         </con:settings>
@@ -103,17 +89,11 @@
                         </con:credentials>
                         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                         <con:jmsPropertyConfig/>
-                        <con:parameters>
-                            <entry key="personId" value="2" xmlns="http://eviware.com/soapui/config"/>
-                        </con:parameters>
+                        <con:parameters><entry key="personId" value="2" xmlns="http://eviware.com/soapui/config"/></con:parameters>
                     </con:request>
-                    <con:request name="Request XML" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd"
-                                 mediaType="application/prs.person.v1+xml" postQueryString="false">
+                    <con:request name="Request XML" id="bf059b0b-b4d4-4b46-9521-5fbe380c5ffd" mediaType="application/prs.person.v1+xml" postQueryString="false">
                         <con:settings>
-                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry
-                                key="Accept" value="application/prs.business-exception.v1+xml"
-                                xmlns="http://eviware.com/soapui/config"/>
-                            </con:setting>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Accept" value="application/prs.business-exception.v1+xml" xmlns="http://eviware.com/soapui/config"/></con:setting>
                         </con:settings>
                         <con:endpoint>http://localhost:8080</con:endpoint>
                         <con:request><![CDATA[<personType xmlns="http://schemas.stesch.be/person/person/v1">
@@ -127,9 +107,7 @@
                         </con:credentials>
                         <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
                         <con:jmsPropertyConfig/>
-                        <con:parameters>
-                            <entry key="personId" value="2" xmlns="http://eviware.com/soapui/config"/>
-                        </con:parameters>
+                        <con:parameters><entry key="personId" value="1" xmlns="http://eviware.com/soapui/config"/></con:parameters>
                     </con:request>
                 </con:method>
             </con:resource>
@@ -154,11 +132,9 @@
                     <con:element xsi:nil="true"/>
                     <con:description xsi:nil="true"/>
                 </con:representation>
-                <con:request name="Request JSON" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687"
-                             mediaType="application/prs.person.v1+json" postQueryString="false">
+                <con:request name="Request JSON" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687" mediaType="application/prs.person.v1+json" postQueryString="false">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                        </con:setting>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
                     <con:request>{
@@ -175,11 +151,9 @@
                     <con:jmsPropertyConfig/>
                     <con:parameters/>
                 </con:request>
-                <con:request name="Request XML" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687"
-                             mediaType="application/prs.person.v1+xml" postQueryString="false">
+                <con:request name="Request XML" id="f12832eb-3d4d-45c0-98e9-5a7a2c2f6687" mediaType="application/prs.person.v1+xml" postQueryString="false">
                     <con:settings>
-                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
-                        </con:setting>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
                     </con:settings>
                     <con:endpoint>http://localhost:8080</con:endpoint>
                     <con:request><![CDATA[<personType xmlns="http://schemas.stesch.be/person/person/v1">
@@ -201,4 +175,4 @@
     <con:properties/>
     <con:wssContainer/>
     <con:oAuth2ProfileContainer/>
-</con:soapui-project>
+<con:oAuth1ProfileContainer/></con:soapui-project>
