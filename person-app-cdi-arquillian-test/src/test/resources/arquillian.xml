@@ -11,4 +11,9 @@
             <property name="modulePath">./target/wildfly-10.0.0.Final/modules</property>
         </configuration>
     </container>
+
+    <extension qualifier="transaction">
+        <property name="manager">java:jboss/UserTransaction</property>
+        <property name="transactionDefaultMode">ROLLBACK</property>
+    </extension>
 </arquillian>
