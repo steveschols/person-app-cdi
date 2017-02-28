@@ -11,7 +11,90 @@
 
     <artifactId>person-app-cdi-arquillian-test</artifactId>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <!-- Fork every test because it will launch a separate AS instance -->
+                        <forkMode>always</forkMode>
+                        <systemPropertyVariables>
+                            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                            <logging.configuration>file:./target/wildfly-10.0.0.Final/standalone/configuration/logging.properties</logging.configuration>
+                            <!--<logging.configuration>file:./src/test/resources/log4j.xml</logging.configuration>-->
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <!--
+                You need the maven dependency plugin to download locally a zip with the server,
+                unless you provide your own, it will download under the /target directory
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>unpack</id>
+                            <phase>process-test-classes</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>org.wildfly</groupId>
+                                        <artifactId>wildfly-dist</artifactId>
+                                        <version>10.0.0.Final</version>
+                                        <type>zip</type>
+                                        <overWrite>false</overWrite>
+                                        <outputDirectory>target</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.1.12.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.arquillian</groupId>
+                <artifactId>wildfly-arquillian-container-embedded</artifactId>
+                <version>2.0.2.Final</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-model</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>be.stesch</groupId>
             <artifactId>person-app-cdi-test</artifactId>

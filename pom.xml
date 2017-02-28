@@ -14,7 +14,6 @@
         <module>person-app-cdi-service-api</module>
         <module>person-app-cdi-service-impl</module>
         <module>person-app-cdi-test</module>
-        <module>person-app-cdi-arquillian-test</module>
         <module>person-app-cdi-web</module>
         <module>person-app-cdi-ear</module>
         <module>person-app-cdi-business</module>
@@ -68,36 +67,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.19.1</version>
-                </plugin>
-
-                <!--
-                You need the maven dependency plugin to download locally a zip with the server,
-                unless you provide your own, it will download under the /target directory
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>unpack</id>
-                            <phase>process-test-classes</phase>
-                            <goals>
-                                <goal>unpack</goal>
-                            </goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>org.wildfly</groupId>
-                                        <artifactId>wildfly-dist</artifactId>
-                                        <version>10.0.0.Final</version>
-                                        <type>zip</type>
-                                        <overWrite>false</overWrite>
-                                        <outputDirectory>target</outputDirectory>
-                                    </artifactItem>
-                                </artifactItems>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -278,18 +247,6 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.1.12.Final</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.arquillian</groupId>
-                <artifactId>wildfly-arquillian-container-embedded</artifactId>
-                <version>2.0.2.Final</version>
-            </dependency>
-            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>3.4.0.GA</version>
@@ -399,4 +356,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>arquillian-tests</id>
+            <modules>
+                <module>person-app-cdi-arquillian-test</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
