@@ -36,6 +36,7 @@ public class AuditEntityListenerTest {
         entityManager.persist(person);
 
         assertThat(person.getCreationDate(), is(not(nullValue())));
+        assertThat(person.getLastUpdateDate(), is(nullValue()));
     }
 
     @Test

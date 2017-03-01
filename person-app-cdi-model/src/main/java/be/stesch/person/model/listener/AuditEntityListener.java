@@ -17,7 +17,6 @@ public class AuditEntityListener {
         if (object instanceof Auditable) {
             Auditable auditable = (Auditable) object;
             auditable.setCreationDate(new Date());
-            auditable.setLastUpdateDate(new Date());
         }
     }
 

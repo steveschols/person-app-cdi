@@ -6,21 +6,16 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.PersistenceTest;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
-import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
 import static be.stesch.person.test.arquillian.ArquillianUtils.createPersonAppEnterpriseArchive;
-import static java.time.LocalDateTime.of;
-import static java.time.LocalDateTime.ofInstant;
-import static java.time.ZoneId.systemDefault;
 import static org.hamcrest.Matchers.*;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertThat;
@@ -46,28 +41,23 @@ public class PersonDaoBeanTest {
     }
 
     @Test
-    public void testPersistPerson() throws Exception {
+    public void persistPerson() throws Exception {
         Person person = new Person(null, "Test", "Person", SINGLE);
 
         personDao.persist(person);
 
         assertThat(person.getId(), is(not(nullValue())));
+        assertThat(person.getCreationDate(), is(not(nullValue())));
+        assertThat(person.getLastUpdateDate(), is(nullValue()));
     }
 
     @Test
     @UsingDataSet
     @ShouldMatchDataSet
-    public void testUpdatePerson() {
-        Long personId = 1L;
-        Person person = personDao.find(personId);
+    public void updatePerson() throws Exception {
+        Person person = personDao.find(1L);
 
-        LocalDateTime expectedCreationDate = of(2015, 8, 27, 0, 0);
-        LocalDateTime actualCreationDate = ofInstant(person.getCreationDate().toInstant(), systemDefault());
-        assertThat(person.getId(), is(personId));
-        assertThat(person.getFirstName(), is("Test"));
-        assertThat(person.getLastName(), is("Person"));
-        assertThat(person.getMaritalStatus(), is(SINGLE));
-        assertThat(actualCreationDate, is(expectedCreationDate));
+        assertThat(person.getOriginalMaritalStatus(), is(SINGLE));
 
         person.setFirstName("John");
         person.setLastName("Doe");
@@ -75,11 +65,14 @@ public class PersonDaoBeanTest {
 
         person = personDao.merge(person);
 
-        assertThat(person.getId(), is(personId));
-        assertThat(person.getFirstName(), is("John"));
-        assertThat(person.getLastName(), is("Doe"));
-        assertThat(person.getMaritalStatus(), is(MARRIED));
-        assertThat(actualCreationDate, is(expectedCreationDate));
+        // The flush might or might not be necessary, depending on the used implementation as per JPA-specification;
+        //
+        // The PreUpdate and PostUpdate callbacks occur before and after the database update operations to
+        // entity data respectively. These database operations may occur at the time the entity state is updated or
+        // they may occur at the time state is flushed to the database (which may be at the end of the transaction).
+        personDao.flush();
+
+        assertThat(person.getLastUpdateDate(), is(not(nullValue())));
     }
 
 }

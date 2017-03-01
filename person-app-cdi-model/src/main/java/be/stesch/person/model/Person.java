@@ -16,7 +16,7 @@ import static javax.persistence.EnumType.STRING;
  */
 @Entity
 @EntityListeners({AuditEntityListener.class, OriginalStateEntityListener.class})
-public class Person implements Auditable, Serializable {
+public class Person implements Identifiable<Long>, Auditable, Serializable {
 
     @Id
     @GeneratedValue
@@ -49,6 +49,7 @@ public class Person implements Auditable, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -77,18 +78,22 @@ public class Person implements Auditable, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
+    @Override
     public Date getCreationDate() {
         return creationDate;
     }
 
+    @Override
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
+    @Override
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
 
+    @Override
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
