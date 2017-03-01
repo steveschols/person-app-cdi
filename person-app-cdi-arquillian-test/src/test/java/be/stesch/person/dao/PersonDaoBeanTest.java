@@ -3,6 +3,10 @@ package be.stesch.person.dao;
 import be.stesch.person.model.Person;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.PersistenceTest;
+import org.jboss.arquillian.persistence.ShouldMatchDataSet;
+import org.jboss.arquillian.persistence.UsingDataSet;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
@@ -25,6 +29,7 @@ import static org.junit.Assert.assertThat;
  * @author Steve Schols
  * @since 28/08/2015
  */
+@PersistenceTest
 @RunWith(Arquillian.class)
 public class PersonDaoBeanTest {
 
@@ -41,8 +46,6 @@ public class PersonDaoBeanTest {
     }
 
     @Test
-//    @Transactional
-    // TODO See https://docs.jboss.org/author/display/ARQ/Persistence
     public void testPersistPerson() throws Exception {
         Person person = new Person(null, "Test", "Person", SINGLE);
 
@@ -52,7 +55,8 @@ public class PersonDaoBeanTest {
     }
 
     @Test
-//    @DataSet("datasets/PersonDataSet.xml")
+    @UsingDataSet
+    @ShouldMatchDataSet
     public void testUpdatePerson() {
         Long personId = 1L;
         Person person = personDao.find(personId);
