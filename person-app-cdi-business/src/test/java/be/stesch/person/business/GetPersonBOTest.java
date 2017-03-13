@@ -33,8 +33,7 @@ public class GetPersonBOTest {
 
         when(personService.findPerson(personId)).thenReturn(person);
 
-        getPersonBO.setId(personId);
-        Person foundPerson = getPersonBO.execute();
+        Person foundPerson = getPersonBO.getPerson(personId);
 
         verify(personService).findPerson(personId);
 
@@ -43,4 +42,5 @@ public class GetPersonBOTest {
         assertThat(foundPerson.getLastName(), is("Doe"));
         assertThat(foundPerson.getMaritalStatus(), is(MARRIED));
     }
+
 }

@@ -30,7 +30,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
         <org.slf4j.version>1.7.21</org.slf4j.version>
-        <org.mockito.version>2.0.42-beta</org.mockito.version>
+        <org.mockito.version>2.0.44-beta</org.mockito.version>
         <!--<org.mockito.version>2.2.17</org.mockito.version>-->
         <org.unitils.version>3.3</org.unitils.version>
         <!--<org.unitils.version>3.4.3</org.unitils.version>-->

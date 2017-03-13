@@ -31,13 +31,12 @@ public class CreatePersonBOTest {
         Long personId = 1L;
         Person person = new Person(null, "John", "Doe", MARRIED);
 
-        createPersonBO.setPerson(person);
-
         when(personService.createPerson(person)).thenReturn(personId);
 
-        Long createdPersonId = createPersonBO.execute();
+        Long createdPersonId = createPersonBO.createPerson(person);
 
         verify(personService).createPerson(person);
         assertThat(createdPersonId, is(personId));
     }
+
 }

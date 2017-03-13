@@ -50,9 +50,7 @@ public class UpdatePersonBOTest {
         when(personService.findPerson(personId)).thenReturn(personToUpdate);
         when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
 
-        updatePersonBO.setPersonId(personId);
-        updatePersonBO.setPerson(updatedPerson);
-        Long updatedPersonId = updatePersonBO.execute();
+        Long updatedPersonId = updatePersonBO.updatePerson(personId, updatedPerson);
 
         verify(personService).findPerson(personId);
         verify(personService).updatePerson(personToUpdate);
@@ -73,9 +71,7 @@ public class UpdatePersonBOTest {
         when(personService.findPerson(personId)).thenReturn(personToUpdate);
         when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
 
-        updatePersonBO.setPersonId(personId);
-        updatePersonBO.setPerson(updatedPerson);
-        Long updatedPersonId = updatePersonBO.execute();
+        Long updatedPersonId = updatePersonBO.updatePerson(personId, updatedPerson);
 
         verify(personService).findPerson(personId);
         verify(personService).updatePerson(personToUpdate);
@@ -93,9 +89,7 @@ public class UpdatePersonBOTest {
         when(personService.findPerson(personId)).thenReturn(null);
         expectedException.expect(BusinessException.class);
 
-        updatePersonBO.setPersonId(personId);
-        updatePersonBO.setPerson(updatedPerson);
-        updatePersonBO.execute();
+        updatePersonBO.updatePerson(personId, updatedPerson);
     }
 
 }

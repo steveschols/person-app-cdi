@@ -15,6 +15,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,11 +47,12 @@ public class PersonAdapterBeanTest {
                 .withLastName("Doe")
                 .withMaritalStatus("SINGLE");
 
-        when(createPersonBO.execute()).thenReturn(personId);
+
+        when(createPersonBO.createPerson(any(Person.class))).thenReturn(personId);
 
         Long createdPersonId = personAdapterBean.createPerson(personType);
 
-        verify(createPersonBO).execute();
+        verify(createPersonBO).createPerson(any(Person.class));
         verify(personMapper).mapToDomain(personType);
         assertThat(createdPersonId, is(personId));
     }
@@ -62,11 +65,11 @@ public class PersonAdapterBeanTest {
                 .withLastName("Doe")
                 .withMaritalStatus("SINGLE");
 
-        when(updatePersonBO.execute()).thenReturn(personId);
+        when(updatePersonBO.updatePerson(eq(personId), any(Person.class))).thenReturn(personId);
 
         Long updatedPersonId = personAdapterBean.updatePerson(personId, personType);
 
-        verify(updatePersonBO).execute();
+        verify(updatePersonBO).updatePerson(eq(personId), any(Person.class));
         verify(personMapper).mapToDomain(personType);
         assertThat(updatedPersonId, is(personId));
     }
@@ -81,12 +84,12 @@ public class PersonAdapterBeanTest {
                 .withLastName("Doe")
                 .withMaritalStatus("SINGLE");
 
-        when(getPersonBO.execute()).thenReturn(person);
+        when(getPersonBO.getPerson(personId)).thenReturn(person);
         when(personMapper.mapToResource(person)).thenReturn(personType);
 
         PersonType returnedPerson = personAdapterBean.getPerson(personId);
 
-        verify(getPersonBO).execute();
+        verify(getPersonBO).getPerson(personId);
         verify(personMapper).mapToResource(person);
         assertThat(returnedPerson, is(personType));
     }

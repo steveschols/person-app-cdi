@@ -33,24 +33,18 @@ public class PersonAdapterBean implements PersonAdapter {
 
     @Override
     public Long createPerson(PersonType personType) {
-        createPersonBO.setPerson(personMapper.mapToDomain(personType));
-
-        return createPersonBO.execute();
+        return createPersonBO.createPerson(personMapper.mapToDomain(personType));
     }
 
     @Override
     public Long updatePerson(Long personId, PersonType personType) {
-        updatePersonBO.setPersonId(personId);
-        updatePersonBO.setPerson(personMapper.mapToDomain(personType));
-
-        return updatePersonBO.execute();
+        return updatePersonBO.updatePerson(personId, personMapper.mapToDomain(personType));
     }
 
     @Override
     @TransactionAttribute(NEVER)
     public PersonType getPerson(Long personId) {
-        getPersonBO.setId(personId);
-        Person person = getPersonBO.execute();
+        Person person = getPersonBO.getPerson(personId);
 
         return personMapper.mapToResource(person);
     }

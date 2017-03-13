@@ -7,7 +7,6 @@ import org.jboss.arquillian.persistence.PersistenceTest;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,9 +14,8 @@ import javax.inject.Inject;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static be.stesch.person.test.arquillian.ArquillianUtils.createPersonAppEnterpriseArchive;
+import static be.stesch.person.test.ArquillianUtils.createPersonAppEnterpriseArchive;
 import static org.hamcrest.Matchers.*;
-import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -33,11 +31,7 @@ public class PersonDaoBeanTest {
 
     @Deployment
     public static EnterpriseArchive createDeployment() {
-        JavaArchive testArchive = create(JavaArchive.class)
-                .addClass(PersonDaoBeanTest.class);
-
-        return createPersonAppEnterpriseArchive()
-                .addAsLibrary(testArchive);
+        return createPersonAppEnterpriseArchive();
     }
 
     @Test

@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by u420643 on 3/1/2017.
  */
-public abstract class GenericDaoBean<T extends Identifiable, PK extends Serializable>
+abstract class GenericDaoBean<T extends Identifiable, PK extends Serializable>
         implements GenericDao<T, PK> {
 
     @PersistenceContext
