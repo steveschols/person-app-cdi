@@ -1,4 +1,4 @@
-package be.stesch.person.test;
+package be.stesch.person.test.util;
 
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;

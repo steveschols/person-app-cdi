@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
 import static be.stesch.person.model.PersonTestData.createPerson;
-import static be.stesch.person.test.ArquillianUtils.createPersonAppEnterpriseArchive;
+import static be.stesch.person.test.util.ArquillianUtils.createPersonAppEnterpriseArchive;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
