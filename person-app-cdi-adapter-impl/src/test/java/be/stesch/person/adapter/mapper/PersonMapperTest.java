@@ -7,6 +7,7 @@ import org.junit.Test;
 import static be.stesch.person.common.web.PersonAppURIFactory.getPersonUri;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
 import static be.stesch.person.model.MaritalStatus.valueOf;
+import static be.stesch.person.model.PersonTestData.createPerson;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -36,7 +37,7 @@ public class PersonMapperTest {
 
     @Test
     public void testMapToResource() throws Exception {
-        Person person = new Person(1L, "John", "Doe", SINGLE);
+        Person person = createPerson(1L, "John", "Doe", SINGLE);
 
         PersonType personType = personMapper.mapToResource(person);
 

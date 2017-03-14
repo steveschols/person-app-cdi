@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static be.stesch.person.model.PersonTestData.createPerson;
 import static be.stesch.person.test.ArquillianUtils.createPersonAppEnterpriseArchive;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -36,7 +37,7 @@ public class PersonDaoBeanTest {
 
     @Test
     public void persistPerson() throws Exception {
-        Person person = new Person(null, "Test", "Person", SINGLE);
+        Person person = createPerson(null, "Test", "Person", SINGLE);
 
         personDao.persist(person);
 

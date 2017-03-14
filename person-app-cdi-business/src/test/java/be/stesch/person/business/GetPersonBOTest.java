@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
+import static be.stesch.person.model.PersonTestData.createPerson;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -29,7 +30,7 @@ public class GetPersonBOTest {
     @Test
     public void testGetPerson() throws Exception {
         Long personId = 1L;
-        Person person = new Person(personId, "John", "Doe", MARRIED);
+        Person person = createPerson(personId, "John", "Doe", MARRIED);
 
         when(personService.findPerson(personId)).thenReturn(person);
 

@@ -30,6 +30,12 @@
         </dependency>
 
         <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-model</artifactId>
+            <type>test-jar</type>
+        </dependency>
+
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
         </dependency>

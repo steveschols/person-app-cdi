@@ -6,6 +6,7 @@ import be.stesch.person.service.impl.EventServiceBean;
 import org.junit.Test;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
+import static be.stesch.person.model.PersonTestData.createPerson;
 
 /**
  * @author Steve Schols
@@ -15,7 +16,7 @@ public class NotificationEventServiceBeanTest {
 
     @Test
     public void testPublishNotification() throws Exception {
-        Person person = new Person(1L, "John", "Doe", MARRIED);
+        Person person = createPerson(1L, "John", "Doe", MARRIED);
         MaritalStatusChangeEvent maritalStatusChangeEvent = new MaritalStatusChangeEvent(person);
 
         new EventServiceBean().publishMaritalStatusChangeEvent(maritalStatusChangeEvent);

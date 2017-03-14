@@ -16,6 +16,7 @@ import javax.enterprise.event.Event;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static be.stesch.person.model.PersonTestData.createPerson;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.rules.ExpectedException.none;
@@ -42,10 +43,10 @@ public class UpdatePersonBOTest {
     public void testUpdatePersonUnmodifiedMaritalStatus() throws Exception {
         Long personId = 1L;
 
-        Person personToUpdate = new Person(personId, "Test", "Person", SINGLE);
+        Person personToUpdate = createPerson(personId, "Test", "Person", SINGLE);
         personToUpdate.setOriginalMaritalStatus(SINGLE);
 
-        Person updatedPerson = new Person(personId, "John", "Doe", SINGLE);
+        Person updatedPerson = createPerson(personId, "John", "Doe", SINGLE);
 
         when(personService.findPerson(personId)).thenReturn(personToUpdate);
         when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
@@ -63,10 +64,10 @@ public class UpdatePersonBOTest {
     public void testUpdatePersonModifiedMaritalStatus() throws Exception {
         Long personId = 1L;
 
-        Person personToUpdate = new Person(personId, "Test", "Person", SINGLE);
+        Person personToUpdate = createPerson(personId, "Test", "Person", SINGLE);
         personToUpdate.setOriginalMaritalStatus(SINGLE);
 
-        Person updatedPerson = new Person(personId, "John", "Doe", MARRIED);
+        Person updatedPerson = createPerson(personId, "John", "Doe", MARRIED);
 
         when(personService.findPerson(personId)).thenReturn(personToUpdate);
         when(personService.updatePerson(personToUpdate)).thenReturn(updatedPerson);
@@ -84,7 +85,7 @@ public class UpdatePersonBOTest {
     public void testUpdatePersonNotFound() throws Exception {
         Long personId = 1L;
 
-        Person updatedPerson = new Person(personId, "John", "Doe", MARRIED);
+        Person updatedPerson = createPerson(personId, "John", "Doe", MARRIED);
 
         when(personService.findPerson(personId)).thenReturn(null);
         expectedException.expect(BusinessException.class);

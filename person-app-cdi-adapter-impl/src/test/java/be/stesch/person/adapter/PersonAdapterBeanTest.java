@@ -5,6 +5,7 @@ import be.stesch.person.business.CreatePersonBO;
 import be.stesch.person.business.GetPersonBO;
 import be.stesch.person.business.UpdatePersonBO;
 import be.stesch.person.model.Person;
+import be.stesch.person.model.PersonTestData;
 import be.stesch.person.person.v1.PersonType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +79,7 @@ public class PersonAdapterBeanTest {
     public void getPerson() throws Exception {
         Long personId = 1L;
 
-        Person person = new Person(1L, "John", "Doe", SINGLE);
+        Person person = PersonTestData.createPerson(1L, "John", "Doe", SINGLE);
         PersonType personType = new PersonType()
                 .withFirstName("John")
                 .withLastName("Doe")

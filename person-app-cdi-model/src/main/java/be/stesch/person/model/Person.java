@@ -1,9 +1,6 @@
 package be.stesch.person.model;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -31,20 +28,13 @@ public class Person extends AbstractAuditedEntity implements Identifiable<Long> 
     @Transient
     private MaritalStatus originalMaritalStatus;
 
-    public Person() {
-    }
-
-    @VisibleForTesting
-    public Person(Long id, String firstName, String lastName, MaritalStatus maritalStatus) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.maritalStatus = maritalStatus;
-    }
-
     @Override
     public Long getId() {
         return id;
+    }
+
+    void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

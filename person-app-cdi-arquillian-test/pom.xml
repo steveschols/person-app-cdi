@@ -22,7 +22,9 @@
                         <forkMode>always</forkMode>
                         <systemPropertyVariables>
                             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                            <logging.configuration>file:./target/wildfly-10.0.0.Final/standalone/configuration/logging.properties</logging.configuration>
+                            <logging.configuration>
+                                file:./target/wildfly-10.0.0.Final/standalone/configuration/logging.properties
+                            </logging.configuration>
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
@@ -111,6 +113,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>be.stesch</groupId>
+            <artifactId>person-app-cdi-model</artifactId>
+            <type>test-jar</type>
+        </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>

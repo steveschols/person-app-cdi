@@ -1,26 +1,19 @@
 package be.stesch.person.model;
 
-import be.stesch.person.model.event.MaritalStatusChangeEvent;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.unitils.UnitilsJUnit4TestClassRunner;
 import org.unitils.database.annotations.Transactional;
 import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static be.stesch.person.model.PersonTestData.createPerson;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.unitils.database.util.TransactionMode.ROLLBACK;
 import static org.unitils.orm.jpa.JpaUnitils.flushDatabaseUpdates;
@@ -38,7 +31,7 @@ public class PersonTest {
 
     @Test
     public void testAuditDataOnPersist() throws Exception {
-        Person person = new Person(null, "Test", "Person", SINGLE);
+        Person person = createPerson(null, "Test", "Person", SINGLE);
 
         entityManager.persist(person);
 

@@ -1,6 +1,7 @@
 package be.stesch.person.dao;
 
 import be.stesch.person.model.Person;
+import be.stesch.person.model.PersonTestData;
 import be.stesch.person.model.event.MaritalStatusChangeEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 
 import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
+import static be.stesch.person.model.PersonTestData.createPerson;
 import static java.time.LocalDateTime.of;
 import static java.time.LocalDateTime.ofInstant;
 import static java.time.ZoneId.systemDefault;
@@ -50,7 +52,7 @@ public class PersonDaoBeanTest {
 
     @Test
     public void testPersistPerson() throws Exception {
-        Person person = new Person(null, "Test", "Person", SINGLE);
+        Person person = createPerson(null, "Test", "Person", SINGLE);
 
         personDao.persist(person);
 
