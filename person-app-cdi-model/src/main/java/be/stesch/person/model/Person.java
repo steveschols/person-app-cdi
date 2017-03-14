@@ -1,12 +1,9 @@
 package be.stesch.person.model;
 
-import be.stesch.person.model.listener.AuditEntityListener;
-import be.stesch.person.model.listener.OriginalStateEntityListener;
 import com.google.common.annotations.VisibleForTesting;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -15,8 +12,7 @@ import static javax.persistence.EnumType.STRING;
  * @since 27/08/2015
  */
 @Entity
-@EntityListeners({AuditEntityListener.class, OriginalStateEntityListener.class})
-public class Person implements Identifiable<Long>, Auditable, Serializable {
+public class Person extends AbstractAuditedEntity implements Identifiable<Long> {
 
     @Id
     @GeneratedValue
@@ -32,10 +28,7 @@ public class Person implements Identifiable<Long>, Auditable, Serializable {
     @Enumerated(STRING)
     private MaritalStatus maritalStatus;
 
-    private Date creationDate;
-
-    private Date lastUpdateDate;
-
+    @Transient
     private MaritalStatus originalMaritalStatus;
 
     public Person() {
@@ -78,32 +71,17 @@ public class Person implements Identifiable<Long>, Auditable, Serializable {
         this.maritalStatus = maritalStatus;
     }
 
-    @Override
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    @Override
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    @Override
-    public Date getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    @Override
-    public void setLastUpdateDate(Date lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
-
     public MaritalStatus getOriginalMaritalStatus() {
         return originalMaritalStatus;
     }
 
     public void setOriginalMaritalStatus(MaritalStatus originalMaritalStatus) {
         this.originalMaritalStatus = originalMaritalStatus;
+    }
+
+    @PostLoad
+    public void retainOriginalMaritalStatus() {
+        setOriginalMaritalStatus(getMaritalStatus());
     }
 
 }

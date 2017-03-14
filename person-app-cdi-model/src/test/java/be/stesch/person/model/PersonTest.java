@@ -1,36 +1,43 @@
-package be.stesch.person.model.listener;
+package be.stesch.person.model;
 
-import be.stesch.person.model.Person;
+import be.stesch.person.model.event.MaritalStatusChangeEvent;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.unitils.UnitilsJUnit4TestClassRunner;
 import org.unitils.database.annotations.Transactional;
 import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.orm.jpa.annotation.JpaEntityManagerFactory;
 
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static be.stesch.person.model.MaritalStatus.MARRIED;
 import static be.stesch.person.model.MaritalStatus.SINGLE;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.unitils.database.util.TransactionMode.ROLLBACK;
 import static org.unitils.orm.jpa.JpaUnitils.flushDatabaseUpdates;
 
 /**
- * @author Steve Schols
- * @since 1/09/2015
+ * Created by u420643 on 3/14/2017.
  */
 @RunWith(UnitilsJUnit4TestClassRunner.class)
 @JpaEntityManagerFactory(persistenceUnit = "person-app-test")
 @Transactional(ROLLBACK)
-public class AuditEntityListenerTest {
+public class PersonTest {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Test
-    public void testSetAuditDataOnPersist() throws Exception {
+    public void testAuditDataOnPersist() throws Exception {
         Person person = new Person(null, "Test", "Person", SINGLE);
 
         entityManager.persist(person);
@@ -44,7 +51,7 @@ public class AuditEntityListenerTest {
     // TODO: Move PersonDataSet.xml to person-app-test module
     // If I do that while using unitils 3.3, I get an "URI is not hierarchical" exception.
     // This should be fixed in unitils 3.4.2, but then other persistence-related issues occur.
-    public void testSetAuditDataOnUpdate() throws Exception {
+    public void testAuditDataOnUpdate() throws Exception {
         Person person = entityManager.find(Person.class, 1L);
         person.setFirstName("John");
         person.setLastName("Doe");
@@ -58,6 +65,23 @@ public class AuditEntityListenerTest {
         flushDatabaseUpdates();
 
         assertThat(person.getLastUpdateDate(), is(not(nullValue())));
+    }
+
+    @Test
+    @DataSet("/datasets/PersonDataSet.xml")
+    // TODO: Move PersonDataSet.xml to person-app-test module
+    // If I do that while using unitils 3.3, I get an "URI is not hierarchical" exception.
+    // This should be fixed in unitils 3.4.2, but then other persistence-related issues occur.
+    public void testOriginalMaritalStatus() throws Exception {
+        Person person = entityManager.find(Person.class, 1L);
+
+        assertThat(person.getMaritalStatus(), is(SINGLE));
+        assertThat(person.getOriginalMaritalStatus(), is(SINGLE));
+
+        person.setMaritalStatus(MARRIED);
+
+        assertThat(person.getMaritalStatus(), is(MARRIED));
+        assertThat(person.getOriginalMaritalStatus(), is(SINGLE));
     }
 
 }
