@@ -1,0 +1,5 @@
+.idea
+boot.log*
+*.iml
+*/target
+dependencies.txt
